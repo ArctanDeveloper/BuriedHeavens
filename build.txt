@@ -1,3 +1,4 @@
 displayName = Buried Heavens
 author = ArctanDeveloper
 version = 0.1
+includeSource = true
