@@ -103,7 +103,6 @@ namespace BuriedHeavens.Common.UI.GeneSplicerUI {
                 },
                 ItemChangeFunc = (slot, oldItem, newItem) => {
                     if (newItem.IsAir) {
-                        ModContent.GetInstance<BuriedHeavens>().Logger.Debug("In here.");
                         deletions.Add(itemSlots.IndexOf(slot));
                     } else if (oldItem.IsAir) {
                         add = true;
