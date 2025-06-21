@@ -3,7 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace BuriedHeavens.Content.Items {
-    public class AncientDebris : ModItem {
+    public class AncientScrap : ModItem {
         public override void SetStaticDefaults() {
             Item.ResearchUnlockCount = 100;
             ItemID.Sets.ExtractinatorMode[Type] = Type;
@@ -11,7 +11,7 @@ namespace BuriedHeavens.Content.Items {
 
         public override void SetDefaults() {
             Item.width = 32;
-            Item.height = 30;
+            Item.height = 32;
             Item.value = 100;
             Item.useTime = 15;
             Item.useAnimation = 15;
@@ -24,17 +24,21 @@ namespace BuriedHeavens.Content.Items {
         }
 
         public override void ExtractinatorUse(int extractinatorBlockType, ref int resultType, ref int resultStack) {
-            switch (Main.rand.Next(0, 8)) {
+            switch (Main.rand.Next(0, 12)) {
                 case < 2:
-                    resultType = ItemID.FossilOre;
-                    resultStack = Main.rand.Next(0, 3);
+                    resultType = ItemID.IronBar;
+                    resultStack = Main.rand.Next(0, 12);
                     break;
                 case < 5:
-                    resultType = ItemID.SiltBlock;
+                    resultType = ItemID.LeadBar;
                     resultStack = Main.rand.Next(0, 5);
                     break;
                 case < 8:
-                    resultType = ItemID.MudBlock;
+                    resultType = ItemID.TungstenBar;
+                    resultStack = Main.rand.Next(0, 16);
+                    break;
+                case < 12:
+                    resultType = ItemID.SilverBar;
                     resultStack = Main.rand.Next(0, 16);
                     break;
                 default:

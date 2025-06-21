@@ -45,11 +45,5 @@ namespace BuriedHeavens.Content.Tiles {
 
             return true;
         }
-
-		public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem) {
-			if (TileEntity.TryGet(i, j, out AberrantOculiTileEntity tileEntity) && Main.netMode != NetmodeID.MultiplayerClient) {
-				Item.NewItem(new EntitySource_TileBreak(i, j), tileEntity.Position.X * 16, tileEntity.Position.Y * 16, 32, 32, ItemID.WaterBucket);
-			}
-		}
     }
 }

@@ -14,7 +14,7 @@ namespace BuriedHeavens.Common.Players {
 
         public void CloseUI() {
             StateSave();
-            this.tileEntity = null;
+            tileEntity = null;
         }
 
         public void StateSave() {

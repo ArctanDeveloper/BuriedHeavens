@@ -14,14 +14,18 @@ namespace BuriedHeavens.Common.Players {
         }
 
         public void CloseUI(List<BetterItemSlot> itemSlots) {
-            StateSave(itemSlots);
-            this.tileEntity = null;
+            if (tileEntity != null)
+                StateSave(itemSlots);
+            tileEntity = null;
         }
 
         public void StateSave(List<BetterItemSlot> itemSlots) {
-            tileEntity.inventory.Clear();
+            if (tileEntity.inventory.Count > 0) {
+                return;
+            }
+            tileEntity.inventory = [];
             foreach (BetterItemSlot itemSlot in itemSlots) {
-                Mod.Logger.Debug($"{itemSlot.Item.ToString()} {itemSlot.Item.IsAir}");
+                //Mod.Logger.Debug($"{itemSlot.Item} {itemSlot.Item.IsAir}");
                 if (itemSlot.Item.IsAir) {
                     continue;
                 }

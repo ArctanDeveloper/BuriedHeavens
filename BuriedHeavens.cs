@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using BuriedHeavens.Content.Items;
+using BuriedHeavens.Core.AberrantOculiCrafting;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -20,6 +21,12 @@ namespace BuriedHeavens {
         /// <list type="number">
 		/// <item><description>Item ID of the item to be polishable.</description></item>
 		/// <item><description>Results as an array of <see cref="Tuple{int, int, int, int}"/>, paramter one is the item type, parameter two is the min stack, three the max stack, and four the weight of the option.</description></item>
+		/// </list>
+        /// <br></br>
+        /// addAberrantOculiRecipe
+        /// <list type="number">
+		/// <item><description>Check if recipe is valid <see cref="Func{Player, Item, Item, Item, Item, Item, Item, bool}"/>.</description></item>
+		/// <item><description>Operation to do <see cref="Func{Player, Item, Item, Item, Item, Item, Item, Item}"/>.</description></item>
 		/// </list>
 		/// </param>
 		/// <returns>
@@ -46,6 +53,14 @@ namespace BuriedHeavens {
                 			return true;
                         }
                         break;
+                    case "addAberrantOculiRecipe":
+                        Logger.Debug($"We are here {args[1] is InputDelegate} {args[2] is OutputDelegate} {args[3] is OperationDelegate}");
+                        if (args[1] is InputDelegate validation && args[2] is OutputDelegate output && args[3] is OperationDelegate operation) {
+                            Logger.Debug("Suscces");
+                            AberrantOculiCraftingManager.Recipes.Add(new AberrantOculiRecipe(validation, output, operation));
+                            return true;
+                        }
+                        break;
                 }
 			}
 
@@ -59,9 +74,36 @@ namespace BuriedHeavens {
                     new(ItemID.Bone, 1, 5, 2),
                     new(ItemID.FossilOre, 1, 4, 4),
                     new(ItemID.DirtBlock, 1, 2, 3),
-                    new(ItemID.Amber, 1, 3, 2)
-                });
+                    new(ItemID.Amber, 1, 3, 2),
+                    new(ModContent.ItemType<SkullFossilItem>(), 1, 1, 1)
+                }
+            );
+            
+            Call("addAberrantOculiRecipe",
+				(InputDelegate)((ref AberrantOculiRecipeInput input) => {
+                    return input.primary.type == ItemID.DirtBlock && input.primary.stack > 3;
+                }),
+                (OutputDelegate)((ref AberrantOculiRecipeInput input) => {
+                    Item item = new(ItemID.StoneBlock, 4);
+                    return item;
+                }),
+                (OperationDelegate)((ref AberrantOculiRecipeInput input) => {
+                    input.primary.stack -= 1;
+                })
+            );
         }
+
+        public override void Load() {
+            Logger.Debug(AberrantOculiCraftingManager.Recipes);
+            AberrantOculiCraftingManager.Recipes = [];
+            Logger.Debug(AberrantOculiCraftingManager.Recipes);
+        }
+
+        public override void Unload() {
+            AberrantOculiCraftingManager.Recipes.Clear();
+        }
+
+    
     
 	}
 

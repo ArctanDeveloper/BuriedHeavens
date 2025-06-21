@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using BuriedHeavens.Content.Tiles;
 using Terraria;
 using Terraria.ModLoader;
@@ -20,7 +19,9 @@ namespace BuriedHeavens.Content.TileEntities {
 
         public override void LoadData(TagCompound tag) {
 			if (tag.ContainsKey("inventory")) {
-                inventory = tag.GetList<Item>("inventory").ToList();
+                inventory = [.. tag.GetList<Item>("inventory")];
+            } else {
+                inventory = [];
             }
 		}
     }

@@ -8,6 +8,8 @@ using Terraria.UI;
 using BuriedHeavens.Common.Players;
 using System;
 using ReLogic.Content;
+using Terraria.GameContent;
+using Terraria.ModLoader.UI;
 
 namespace BuriedHeavens.Common.UI.GeneSplicerUI {
     internal class GeneSplicerUIState : UIState {
@@ -15,6 +17,7 @@ namespace BuriedHeavens.Common.UI.GeneSplicerUI {
 
         private UIPanel background;
         private UIImageButton closeButton;
+        private UIButton<string> spliceButton;
         private UIElement geneticsArea;
 
         private UIScrollbar scrollbar;
@@ -56,6 +59,22 @@ namespace BuriedHeavens.Common.UI.GeneSplicerUI {
                 Top = new StyleDimension(0, 0f),
                 Width = new StyleDimension(-170, 1f),
                 Height = new StyleDimension(0, 1f),
+                IgnoresMouseInteraction = true
+            };
+
+            spliceButton = new("Splice") {
+                BackgroundColor = Color.DarkSlateBlue,
+                TextColor = Color.DimGray,
+                Left = new StyleDimension(-40, 0.5f),
+                Top = new StyleDimension(-64, 1f),
+                Width = new StyleDimension(80, 0f),
+                Height = new StyleDimension(40, 0f)
+            };
+
+            spliceButton.OnLeftClick += (mouseEvent, element) => {
+                if (itemSlots.Count > 1) {
+
+                }
             };
 
             itemArea = new() {
@@ -89,6 +108,8 @@ namespace BuriedHeavens.Common.UI.GeneSplicerUI {
             background.Append(closeButton);
             background.Append(scrollbar);
             background.Append(itemArea);
+            background.Append(geneticsArea);
+            geneticsArea.Append(spliceButton);
 
             // The idea here is you add in an item and a new slot gets added, if you remove an item that slot is removed.
             // Always one empty slot at the end to put an item into.
@@ -105,12 +126,12 @@ namespace BuriedHeavens.Common.UI.GeneSplicerUI {
         }
 
         public void AddItem(Item item) {
-            itemSlots[itemSlots.Count - 1].Item = item;
+            itemSlots[^1].Item = item;
             AddSlot();
         }
 
         public void AddSlot() {
-            BetterItemSlot temp = new BetterItemSlot() {
+            BetterItemSlot temp = new() {
                 ValidItemFunc = (item) => {
                     return true;
                 },
@@ -128,6 +149,14 @@ namespace BuriedHeavens.Common.UI.GeneSplicerUI {
             itemSlots.Add(temp);
             itemArea.Append(temp);
             scrollbar.SetView(MathF.Min(itemArea.GetInnerDimensions().Height, 2 + itemSlots.Count * 52), 2 + itemSlots.Count * 52);
+        
+            if (itemSlots.Count > 1) {
+                spliceButton.BackgroundColor = Color.MediumBlue;
+                spliceButton.TextColor = Color.Black;
+            } else {
+                spliceButton.BackgroundColor = Color.DarkSlateBlue;
+                spliceButton.TextColor = Color.DimGray;
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch) {
@@ -138,8 +167,11 @@ namespace BuriedHeavens.Common.UI.GeneSplicerUI {
             base.Draw(spriteBatch);
 
             Rectangle inner = geneticsArea.GetInnerDimensions().ToRectangle();
+            //spriteBatch.Draw(TextureAssets.MagicPixel.Value, new Rectangle((int)inner.TopLeft().X, (int)inner.TopLeft().Y, 2, 2), null, Color.Blue);
+            //spriteBatch.Draw(TextureAssets.MagicPixel.Value, new Rectangle((int)inner.Center().X - 1, (int)inner.Center().Y - 1, 2, 2), null, Color.Blue);
+            //spriteBatch.Draw(TextureAssets.MagicPixel.Value, new Rectangle((int)inner.BottomRight().X - 2, (int)inner.BottomRight().Y - 2, 2, 2), null, Color.Blue);
 
-            spriteBatch.Draw(dnaStrand.Value, inner.Center.ToVector2() - new Vector2(200, 225), Color.Red);
+            spriteBatch.Draw(dnaStrand.Value, inner, Color.Red);
         }
 
         public override void Update(GameTime gameTime) {
@@ -163,11 +195,31 @@ namespace BuriedHeavens.Common.UI.GeneSplicerUI {
                     RemoveSlot(deletions[i]);
                 }
                 deletions.Clear();
+                
+                for (int i = 0; i < itemSlots.Count; i++) {
+                    itemSlots[i].Top.Set(2 + i * 52 - scrollbar.GetValue(), 0f);
+                }
+
+                if (itemSlots.Count > 1) {
+                    spliceButton.BackgroundColor = Color.MediumBlue;
+                    spliceButton.TextColor = Color.Black;
+                } else {
+                    spliceButton.BackgroundColor = Color.DarkSlateBlue;
+                    spliceButton.TextColor = Color.DimGray;
+                }
             }
 
             if (add) {
                 AddSlot();
                 add = false;
+
+                if (itemSlots.Count > 1) {
+                    spliceButton.BackgroundColor = Color.MediumBlue;
+                    spliceButton.TextColor = Color.Black;
+                } else {
+                    spliceButton.BackgroundColor = Color.DarkSlateBlue;
+                    spliceButton.TextColor = Color.DimGray;
+                }
             }
         }
     }

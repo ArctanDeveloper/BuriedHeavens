@@ -18,4 +18,19 @@ Items: {
 		DisplayName: Polishing Table Item
 		Tooltip: ""
 	}
+
+	AncientScrap: {
+		DisplayName: Ancient Scrap
+		Tooltip: ""
+	}
+
+	AncientStarFragment: {
+		DisplayName: Ancient Star Fragment
+		Tooltip: ""
+	}
+
+	SkullFossilItem: {
+		DisplayName: Skull Fossil Item
+		Tooltip: ""
+	}
 }

@@ -42,9 +42,12 @@ namespace BuriedHeavens.Content.Tiles {
         }
 
 		public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem) {
-			if (TileEntity.TryGet(i, j, out GeneSplicerTileEntity tileEntity) && Main.netMode != NetmodeID.MultiplayerClient) {
-				Item.NewItem(new EntitySource_TileBreak(i, j), tileEntity.Position.X * 16, tileEntity.Position.Y * 16, 32, 32, ItemID.WaterBucket);
-			}
+			if (!fail && TileEntity.TryGet(i, j, out GeneSplicerTileEntity tileEntity) && Main.netMode != NetmodeID.MultiplayerClient && tileEntity.inventory != null) {
+				foreach (Item item in tileEntity.inventory) {
+					Item.NewItem(new EntitySource_TileBreak(i, j), tileEntity.Position.X * 16, tileEntity.Position.Y * 16, 32, 32, item);
+				}
+                tileEntity.inventory.Clear();
+            }
 		}
     }
 }
