@@ -23,10 +23,11 @@ namespace BuriedHeavens.Content.Tiles {
 
 			AdjTiles = [TileID.WorkBenches];
 
-			TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
+			TileObjectData.newTile.CopyFrom(TileObjectData.Style2xX);
 			TileObjectData.newTile.HookPostPlaceMyPlayer = ModContent.GetInstance<AberrantOculiTileEntity>().Generic_HookPostPlaceMyPlayer;
 			TileObjectData.newTile.CoordinatePadding = 0;
-            TileObjectData.newTile.CoordinateHeights = [16, 18];
+            TileObjectData.newTile.Height = 4;
+            TileObjectData.newTile.CoordinateHeights = [16, 16, 16, 16];
             TileObjectData.addTile(Type);
 
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
