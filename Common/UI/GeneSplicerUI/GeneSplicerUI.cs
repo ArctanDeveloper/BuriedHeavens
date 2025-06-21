@@ -7,12 +7,16 @@ using Terraria.ModLoader;
 using Terraria.UI;
 using BuriedHeavens.Common.Players;
 using System;
+using ReLogic.Content;
 
 namespace BuriedHeavens.Common.UI.GeneSplicerUI {
     internal class GeneSplicerUIState : UIState {
+        private Asset<Texture2D> dnaStrand;
+
         private UIPanel background;
         private UIImageButton closeButton;
-        
+        private UIElement geneticsArea;
+
         private UIScrollbar scrollbar;
         private UIPanel itemArea;
         public List<BetterItemSlot> itemSlots;
@@ -21,11 +25,13 @@ namespace BuriedHeavens.Common.UI.GeneSplicerUI {
         private bool add = false;
 
         public override void OnInitialize() {
+            dnaStrand = ModContent.Request<Texture2D>("BuriedHeavens/Assets/Textures/UI/DNAStrand");
+
             background = new() {
                 BackgroundColor = Color.Blue,
                 BorderColor = Color.DarkBlue,
-                Left = new StyleDimension(250, 0f),
-                Top = new StyleDimension(250, 0f),
+                Left = new StyleDimension(0, 0.35f),
+                Top = new StyleDimension(0, 0.1f),
                 Width = new StyleDimension(500, 0f),
                 Height = new StyleDimension(600, 0f)
             };            
@@ -45,10 +51,17 @@ namespace BuriedHeavens.Common.UI.GeneSplicerUI {
                 }
             };
 
+            geneticsArea = new() {
+                Left = new StyleDimension(0, 0f),
+                Top = new StyleDimension(0, 0f),
+                Width = new StyleDimension(-170, 1f),
+                Height = new StyleDimension(0, 1f),
+            };
+
             itemArea = new() {
                 BackgroundColor = Color.Blue,
                 BorderColor = Color.DarkBlue,
-                Left = new StyleDimension(-175, 1f),
+                Left = new StyleDimension(-170, 1f),
                 Top = new StyleDimension(0, 0f),
                 Width = new StyleDimension(150, 0f),
                 Height = new StyleDimension(0, 1f),
@@ -56,9 +69,9 @@ namespace BuriedHeavens.Common.UI.GeneSplicerUI {
             };
 
             scrollbar = new() {
-                Left = new StyleDimension(-25, 1f),
+                Left = new StyleDimension(-20, 1f),
                 Top = new StyleDimension(0, 0f),
-                Width = new StyleDimension(25, 0f),
+                Width = new StyleDimension(20, 0f),
                 Height = new StyleDimension(0, 1f)
             };
 
@@ -123,6 +136,10 @@ namespace BuriedHeavens.Common.UI.GeneSplicerUI {
             }
 
             base.Draw(spriteBatch);
+
+            Rectangle inner = geneticsArea.GetInnerDimensions().ToRectangle();
+
+            spriteBatch.Draw(dnaStrand.Value, inner.Center.ToVector2() - new Vector2(200, 225), Color.Red);
         }
 
         public override void Update(GameTime gameTime) {
