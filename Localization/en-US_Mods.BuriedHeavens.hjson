@@ -1,1 +1,21 @@
+Items: {
+	AncientDebris: {
+		DisplayName: Ancient Debris
+		Tooltip: ""
+	}
 
+	AberrantOculiItem: {
+		DisplayName: Aberrant Oculi Item
+		Tooltip: ""
+	}
+
+	GeneSplicerItem: {
+		DisplayName: Gene Splicer Item
+		Tooltip: ""
+	}
+
+	PolishingTableItem: {
+		DisplayName: Polishing Table Item
+		Tooltip: ""
+	}
+}

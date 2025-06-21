@@ -2,7 +2,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace BuriedHeavens.Content.Items.Placeable {
+namespace BuriedHeavens.Content.Items {
     public class AncientDebris : ModItem {
         public override void SetStaticDefaults() {
             Item.ResearchUnlockCount = 100;
@@ -13,6 +13,13 @@ namespace BuriedHeavens.Content.Items.Placeable {
             Item.width = 32;
             Item.height = 30;
             Item.value = 100;
+            Item.useTime = 24;
+            Item.useAnimation = 24;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item1;
+            Item.consumable = true;
+            Item.noMelee = true;
+            Item.maxStack = Item.CommonMaxStack;
         }
 
         public override void ExtractinatorUse(int extractinatorBlockType, ref int resultType, ref int resultStack) {
@@ -20,15 +27,19 @@ namespace BuriedHeavens.Content.Items.Placeable {
                 case < 2:
                     resultType = ItemID.FossilOre;
                     resultStack = Main.rand.Next(0, 3);
-                    return;
+                    break;
                 case < 5:
                     resultType = ItemID.SiltBlock;
                     resultStack = Main.rand.Next(0, 5);
-                    return;
+                    break;
                 case < 8:
                     resultType = ItemID.MudBlock;
                     resultStack = Main.rand.Next(0, 16);
-                    return;
+                    break;
+                default:
+                    resultType = ItemID.SandBlock;
+                    resultStack = Main.rand.Next(1, 10);
+                    break;
             }
         }
     }
