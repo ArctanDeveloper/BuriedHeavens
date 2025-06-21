@@ -5,17 +5,17 @@ Items: {
 	}
 
 	AberrantOculiItem: {
-		DisplayName: Aberrant Oculi Item
+		DisplayName: Aberrant Oculi
 		Tooltip: ""
 	}
 
 	GeneSplicerItem: {
-		DisplayName: Gene Splicer Item
+		DisplayName: Gene Splicer
 		Tooltip: ""
 	}
 
 	PolishingTableItem: {
-		DisplayName: Polishing Table Item
+		DisplayName: Polishing Table
 		Tooltip: ""
 	}
 

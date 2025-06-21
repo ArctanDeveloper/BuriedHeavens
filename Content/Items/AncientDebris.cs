@@ -12,7 +12,7 @@ namespace BuriedHeavens.Content.Items {
         public override void SetDefaults() {
             Item.width = 32;
             Item.height = 30;
-            Item.value = 100;
+            Item.value = Item.buyPrice(silver: 1);
             Item.useTime = 15;
             Item.useAnimation = 15;
             Item.useStyle = ItemUseStyleID.Swing;
