@@ -15,6 +15,8 @@ namespace BuriedHeavens.Common.UI {
         private readonly int _context;
         private readonly float _scale;
         public Func<Item, bool> ValidItemFunc;
+        public Func<BetterItemSlot, Item, Item, bool> ItemChangeFunc;
+        public int[] extra = [];
 
         public BetterItemSlot(Asset<Texture2D> texture = null, int context = ItemSlot.Context.BankItem, float scale = 1f) {
             _texture = texture ?? TextureAssets.InventoryBack9;
@@ -22,7 +24,7 @@ namespace BuriedHeavens.Common.UI {
 
             _scale = scale;
             Item = new();
-            Item.SetDefaults(0);
+            Item.SetDefaults();
 
             Width.Set(_texture.Width(), 0f);
             Height.Set(_texture.Height(), 0f);
@@ -36,7 +38,11 @@ namespace BuriedHeavens.Common.UI {
             if (ContainsPoint(Main.MouseScreen) && !PlayerInput.IgnoreMouseInterface) {
                 Main.LocalPlayer.mouseInterface = true;
                 if (ValidItemFunc == null || ValidItemFunc(Main.mouseItem)) {
+                    Item OldItem = Item.Clone();
                     ItemSlot.Handle(ref Item, _context);
+                    if (OldItem.IsNotSameTypePrefixAndStack(Item)) {
+                        ItemChangeFunc?.Invoke(this, OldItem, Item);
+                    }
                 }
             }
             

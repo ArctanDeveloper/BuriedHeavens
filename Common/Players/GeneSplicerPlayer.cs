@@ -21,6 +21,7 @@ namespace BuriedHeavens.Common.Players {
         public void StateSave(List<BetterItemSlot> itemSlots) {
             tileEntity.inventory.Clear();
             foreach (BetterItemSlot itemSlot in itemSlots) {
+                Mod.Logger.Debug($"{itemSlot.Item.ToString()} {itemSlot.Item.IsAir}");
                 if (itemSlot.Item.IsAir) {
                     continue;
                 }

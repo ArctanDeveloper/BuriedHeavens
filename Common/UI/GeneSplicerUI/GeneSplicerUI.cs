@@ -17,6 +17,9 @@ namespace BuriedHeavens.Common.UI.GeneSplicerUI {
         private UIPanel itemArea;
         public List<BetterItemSlot> itemSlots;
 
+        private List<int> deletions = new();
+        private bool add = false;
+
         public override void OnInitialize() {
             background = new() {
                 BackgroundColor = Color.Blue,
@@ -71,8 +74,8 @@ namespace BuriedHeavens.Common.UI.GeneSplicerUI {
             };
 
             background.Append(closeButton);
-            background.Append(itemArea);
             background.Append(scrollbar);
+            background.Append(itemArea);
 
             // The idea here is you add in an item and a new slot gets added, if you remove an item that slot is removed.
             // Always one empty slot at the end to put an item into.
@@ -89,6 +92,7 @@ namespace BuriedHeavens.Common.UI.GeneSplicerUI {
         }
 
         public void AddItem(Item item) {
+            itemSlots[itemSlots.Count - 1].Item = item;
             AddSlot();
         }
 
@@ -96,12 +100,22 @@ namespace BuriedHeavens.Common.UI.GeneSplicerUI {
             BetterItemSlot temp = new BetterItemSlot() {
                 ValidItemFunc = (item) => {
                     return true;
-                }
+                },
+                ItemChangeFunc = (slot, oldItem, newItem) => {
+                    if (newItem.IsAir) {
+                        ModContent.GetInstance<BuriedHeavens>().Logger.Debug("In here.");
+                        deletions.Add(itemSlots.IndexOf(slot));
+                    } else if (oldItem.IsAir) {
+                        add = true;
+                    }
+                    return true;
+                },
+                extra = [itemSlots.Count],
+                Top = new StyleDimension(2 + itemSlots.Count * 52 - scrollbar.GetValue(), 0f)
             };
             itemSlots.Add(temp);
             itemArea.Append(temp);
-            scrollbar.SetView(MathF.Max(background.Height.Pixels, 2 + itemSlots.Count * 52), 2 + itemSlots.Count * 52);
-
+            scrollbar.SetView(MathF.Min(itemArea.GetInnerDimensions().Height, 2 + itemSlots.Count * 52), 2 + itemSlots.Count * 52);
         }
 
         public override void Draw(SpriteBatch spriteBatch) {
@@ -117,6 +131,8 @@ namespace BuriedHeavens.Common.UI.GeneSplicerUI {
                 return;
             }
 
+            base.Update(gameTime);
+
             if (geneSplicerPlayer.dirty) {
                 for (int i = 0; i < geneSplicerPlayer.tileEntity.inventory.Count; i++) {
                     AddItem(geneSplicerPlayer.tileEntity.inventory[i]);
@@ -124,7 +140,19 @@ namespace BuriedHeavens.Common.UI.GeneSplicerUI {
                 geneSplicerPlayer.dirty = false;
             }
 
-            base.Update(gameTime);
+            if (deletions.Count > 0) {
+                deletions.Sort();
+                deletions.Reverse();
+                for (int i = 0; i < deletions.Count; i++) {
+                    RemoveSlot(deletions[i]);
+                }
+                deletions.Clear();
+            }
+
+            if (add) {
+                AddSlot();
+                add = false;
+            }
         }
     }
 
