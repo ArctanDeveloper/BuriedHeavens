@@ -91,3 +91,5 @@ NPCs: {
 		Census.SpawnCondition: Conditions unknown
 	}
 }
+
+Keybinds.OpenTreeStatus.DisplayName: Open Tree Status
