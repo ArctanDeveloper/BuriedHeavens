@@ -2,8 +2,8 @@ using BuriedHeavens.Content.Tiles;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace BuriedHeavens.Content.Items {
-    public class SkullFossilItem : ModItem {
+namespace BuriedHeavens.Content.Items.Placeable.Fossils {
+    public class ToothFossilItem : ModItem {
         public override void SetStaticDefaults() {
             Item.ResearchUnlockCount = 100;
         }
@@ -12,7 +12,7 @@ namespace BuriedHeavens.Content.Items {
             Item.width = 32;
             Item.height = 32;
             Item.value = 100;
-            Item.DefaultToPlaceableTile(ModContent.TileType<SkullFossil>());
+            Item.DefaultToPlaceableTile(ModContent.TileType<ToothFossil>());
         }
     }
 }

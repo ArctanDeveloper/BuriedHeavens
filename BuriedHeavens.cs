@@ -1,6 +1,10 @@
 using System;
 using System.Collections.Generic;
 using BuriedHeavens.Content.Items;
+using BuriedHeavens.Content.Items.Placeable.Fossils;
+using BuriedHeavens.Content.Items.Tools;
+using BuriedHeavens.Content.NPCs;
+using BuriedHeavens.Content.Tiles;
 using BuriedHeavens.Core.AberrantOculiCrafting;
 using Terraria;
 using Terraria.ID;
@@ -71,11 +75,14 @@ namespace BuriedHeavens {
             Call("addPolishable",
 				ModContent.ItemType<AncientDebris>(),
                 new Tuple<int, int, int, int>[] {
-                    new(ItemID.Bone, 1, 5, 2),
-                    new(ItemID.FossilOre, 1, 4, 4),
-                    new(ItemID.DirtBlock, 1, 2, 3),
-                    new(ItemID.Amber, 1, 3, 2),
-                    new(ModContent.ItemType<SkullFossilItem>(), 1, 1, 1)
+                    new(ItemID.Bone, 1, 5, 7),
+                    new(ItemID.FossilOre, 1, 4, 6),
+                    new(ItemID.DirtBlock, 1, 2, 8),
+                    new(ItemID.Amber, 1, 3, 6),
+                    new(ModContent.ItemType<SkullFossilItem>(), 1, 1, 1),
+                    new(ModContent.ItemType<ToothFossilItem>(), 1, 2, 4),
+                    new(ModContent.ItemType<SkeletalFossilItem>(), 1, 6, 3),
+                    new(ModContent.ItemType<HornFossilItem>(), 1, 2, 2)
                 }
             );
             
@@ -91,20 +98,37 @@ namespace BuriedHeavens {
                     input.primary.stack -= 1;
                 })
             );
+
+            Paleontologist.ValidFossilTiles.Add(ModContent.TileType<HornFossil>());
+            Paleontologist.ValidFossilTiles.Add(ModContent.TileType<SkeletalFossil>());
+            Paleontologist.ValidFossilTiles.Add(ModContent.TileType<SkullFossil>());
+            Paleontologist.ValidFossilTiles.Add(ModContent.TileType<ToothFossil>());
+
+            Paleontologist.ValidFossilItems.Add(ItemID.FossilOre);
+            Paleontologist.ValidFossilItems.Add(ItemID.DesertFossil);
+            Paleontologist.ValidFossilItems.Add(ItemID.DesertFossilWall);
+            Paleontologist.ValidFossilItems.Add(ModContent.ItemType<HornFossilItem>());
+            Paleontologist.ValidFossilItems.Add(ModContent.ItemType<SkeletalFossilItem>());
+            Paleontologist.ValidFossilItems.Add(ModContent.ItemType<SkullFossilItem>());
+            Paleontologist.ValidFossilItems.Add(ModContent.ItemType<ToothFossilItem>());
+            // Paleontologist.ValidFossilTiles.Add(TileID.FossilOre);
+            // Paleontologist.ValidFossilTiles.Add(TileID.DesertFossil);
+
+            Brush.BrushableTiles.Add(TileID.Sand);
+            Brush.BrushableTiles.Add(TileID.Sandstone);
+            Brush.BrushableTiles.Add(TileID.DesertFossil);
+            Brush.BrushableTiles.Add(TileID.SnowBlock);
         }
 
         public override void Load() {
-            Logger.Debug(AberrantOculiCraftingManager.Recipes);
+            //Logger.Debug(AberrantOculiCraftingManager.Recipes);
             AberrantOculiCraftingManager.Recipes = [];
-            Logger.Debug(AberrantOculiCraftingManager.Recipes);
+            //Logger.Debug(AberrantOculiCraftingManager.Recipes);
         }
 
         public override void Unload() {
             AberrantOculiCraftingManager.Recipes.Clear();
         }
-
-    
-    
 	}
 
 	public struct PolishableData {

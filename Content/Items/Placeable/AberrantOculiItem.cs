@@ -12,8 +12,8 @@ namespace BuriedHeavens.Content.Items.Placeable {
         public override void SetDefaults() {
             Item.DefaultToPlaceableTile(ModContent.TileType<AberrantOculi>());
             Item.width = 32;
-            Item.height = 34;
-            Item.value = 7500;
+            Item.height = 64;
+            Item.value = Item.buyPrice(silver: 10, copper: 50);
         }
 
         public override void AddRecipes() {
