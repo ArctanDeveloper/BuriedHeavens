@@ -103,11 +103,24 @@ namespace BuriedHeavens {
 
             Call("addAberrantOculiRecipe",
                 (InputDelegate)((ref AberrantOculiRecipeInput input) => {
+                    return input.primary.type == ModContent.ItemType<AncientStarFragment>() && input.primary.stack > 3;
+                }),
+                (OutputDelegate)((ref AberrantOculiRecipeInput input) => {
+                    Item item = new(ItemID.FallenStar, 4);
+                    return item;
+                }),
+                (OperationDelegate)((ref AberrantOculiRecipeInput input) => {
+                    input.primary.stack -= 1;
+                })
+            );
+
+            Call("addAberrantOculiRecipe",
+                (InputDelegate)((ref AberrantOculiRecipeInput input) => {
                     return input.primary.type == ModContent.ItemType<HornFossilItem>() &&
                     input.secondary.type == ModContent.ItemType<SkeletalFossilItem>() &&
                     input.tertiary.type == ModContent.ItemType<SkullFossilItem>() &&
                     input.quaternary.type == ModContent.ItemType<ToothFossilItem>() &&
-                    input.relic.type == ItemID.Star && input.relic.stack > 4 &&
+                    input.relic.type == ItemID.FallenStar && input.relic.stack > 4 &&
                     input.tome.type == ItemID.SpellTome;
                 }),
                 (OutputDelegate)((ref AberrantOculiRecipeInput input) => {
@@ -124,7 +137,7 @@ namespace BuriedHeavens {
                 (InputDelegate)((ref AberrantOculiRecipeInput input) => {
                     return input.primary.type == ItemID.Lens && input.primary.stack > 5 &&
                     input.secondary.type == ItemID.GoldBar && input.secondary.stack > 1 &&
-                    input.relic.type == ItemID.Star && input.relic.stack > 2;
+                    input.relic.type == ItemID.FallenStar && input.relic.stack > 2;
                 }),
                 (OutputDelegate)((ref AberrantOculiRecipeInput input) => {
                     Item item = new(ModContent.ItemType<Monocle>());
@@ -139,7 +152,7 @@ namespace BuriedHeavens {
                 (InputDelegate)((ref AberrantOculiRecipeInput input) => {
                     return (input.primary.type == ModContent.ItemType<SkeletalFossilItem>() &&
                     input.secondary.type == ItemID.CobaltShield &&
-                    input.tertiary.type == ItemID.Star && input.tertiary.stack > 3);
+                    input.tertiary.type == ItemID.FallenStar && input.tertiary.stack > 3);
                 }),
                 (OutputDelegate)((ref AberrantOculiRecipeInput input) => {
                     Item item = new(ModContent.ItemType<BoneBuckler>());
