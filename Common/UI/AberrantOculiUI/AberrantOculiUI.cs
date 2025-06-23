@@ -1,8 +1,18 @@
+using BuriedHeavens.Common.Players;
+using BuriedHeavens.Common.Systems;
+using BuriedHeavens.Content;
+using BuriedHeavens.Content.Items.Consumables;
+using BuriedHeavens.Core.AberrantOculiCrafting;
+using log4net;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Graphics;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI;
 using BuriedHeavens.Common.Players;
@@ -49,9 +59,15 @@ namespace BuriedHeavens.Common.UI.AberrantOculiUI {
                 Height = new StyleDimension(32, 0f)
             };
             closeButton.OnLeftClick += (mouseEvent, element) => {
-                if (mouseEvent.Target == element && Main.LocalPlayer.TryGetModPlayer(out AberrantOculiPlayer aberrantOculiPlayer)) {   
-                    aberrantOculiPlayer.CloseUI();
+                if (mouseEvent.Target == element && Main.LocalPlayer.TryGetModPlayer(out AberrantOculiPlayer aberrantOculiPlayer)) {
                     DropItems();
+                    primarySlot.Item.TurnToAir();
+                    secondarySlot.Item.TurnToAir();
+                    tertiarySlot.Item.TurnToAir();
+                    quaternarySlot.Item.TurnToAir();
+                    relicSlot.Item.TurnToAir();
+                    tomeSlot.Item.TurnToAir();
+                    aberrantOculiPlayer.CloseUI();
                 }
             };
 
@@ -74,6 +90,26 @@ namespace BuriedHeavens.Common.UI.AberrantOculiUI {
                         UpdateRecipe();
                     }
                     return true;
+                }
+            };
+            output.OnRightClick += (mouseEvent, element) =>
+            {
+                if (mouseEvent.Target == element && Main.LocalPlayer.TryGetModPlayer(out AberrantOculiPlayer aberrantOculiPlayer)
+                && output.Item.type != ItemID.None)
+                {
+                    if (ModContent.GetInstance<TreeSystem>().worldTree != (int)WorldTreeID.DEATH)
+                        ModContent.GetInstance<TreeSystem>().worldTree = (int)WorldTreeID.DEATH;
+                    if (!ModContent.GetInstance<TreeSystem>().YesodCheck() && ModContent.GetInstance<TreeSystem>().MalkuthCheck())
+                    {
+                        ModContent.GetInstance<TreeSystem>().pathway.Append(1);
+                    }
+                    if (output.Item.type == ModContent.ItemType<DubiousDinosaurEgg>())
+                    {
+                        if (!ModContent.GetInstance<TreeSystem>().TiphCheck() && ModContent.GetInstance<TreeSystem>().YesodCheck())
+                        {
+                            ModContent.GetInstance<TreeSystem>().pathway.Append(2);
+                        }
+                    }
                 }
             };
 

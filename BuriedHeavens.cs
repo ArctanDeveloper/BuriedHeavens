@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using BuriedHeavens.Content.Items;
+using BuriedHeavens.Content.Items.Accessories;
+using BuriedHeavens.Content.Items.Consumables;
 using BuriedHeavens.Content.Items.Placeable.Fossils;
 using BuriedHeavens.Content.Items.Tools;
 using BuriedHeavens.Content.NPCs;
@@ -101,14 +103,63 @@ namespace BuriedHeavens {
 
             Call("addAberrantOculiRecipe",
                 (InputDelegate)((ref AberrantOculiRecipeInput input) => {
-                    return input.primary.type == ItemID.DirtBlock && input.primary.stack > 3;
+                    return input.primary.type == ModContent.ItemType<AncientStarFragment>() && input.primary.stack > 3;
                 }),
                 (OutputDelegate)((ref AberrantOculiRecipeInput input) => {
-                    Item item = new(ItemID.StoneBlock, 4);
+                    Item item = new(ItemID.FallenStar, 4);
                     return item;
                 }),
                 (OperationDelegate)((ref AberrantOculiRecipeInput input) => {
                     input.primary.stack -= 1;
+                })
+            );
+
+            Call("addAberrantOculiRecipe",
+                (InputDelegate)((ref AberrantOculiRecipeInput input) => {
+                    return input.primary.type == ModContent.ItemType<HornFossilItem>() &&
+                    input.secondary.type == ModContent.ItemType<SkeletalFossilItem>() &&
+                    input.tertiary.type == ModContent.ItemType<SkullFossilItem>() &&
+                    input.quaternary.type == ModContent.ItemType<ToothFossilItem>() &&
+                    input.relic.type == ItemID.FallenStar && input.relic.stack > 4 &&
+                    input.tome.type == ItemID.SpellTome;
+                }),
+                (OutputDelegate)((ref AberrantOculiRecipeInput input) => {
+                    Item item = new(ModContent.ItemType<DubiousDinosaurEgg>());
+                    return item;
+                }),
+                (OperationDelegate)((ref AberrantOculiRecipeInput input) => {
+                    input.primary.stack -= 1; input.secondary.stack -= 1; input.tertiary.stack -= 1;
+                    input.quaternary.stack -= 1; input.relic.stack -= 5;
+                })
+            );
+
+            Call("addAberrantOculiRecipe",
+                (InputDelegate)((ref AberrantOculiRecipeInput input) => {
+                    return input.primary.type == ItemID.Lens && input.primary.stack > 5 &&
+                    input.secondary.type == ItemID.GoldBar && input.secondary.stack > 1 &&
+                    input.relic.type == ItemID.FallenStar && input.relic.stack > 2;
+                }),
+                (OutputDelegate)((ref AberrantOculiRecipeInput input) => {
+                    Item item = new(ModContent.ItemType<Monocle>());
+                    return item;
+                }),
+                (OperationDelegate)((ref AberrantOculiRecipeInput input) => {
+                    input.primary.stack -= 6; input.secondary.stack -= 2; input.relic.stack -= 3;
+                })
+            );
+
+            Call("addAberrantOculiRecipe",
+                (InputDelegate)((ref AberrantOculiRecipeInput input) => {
+                    return (input.primary.type == ModContent.ItemType<SkeletalFossilItem>() &&
+                    input.secondary.type == ItemID.CobaltShield &&
+                    input.tertiary.type == ItemID.FallenStar && input.tertiary.stack > 3);
+                }),
+                (OutputDelegate)((ref AberrantOculiRecipeInput input) => {
+                    Item item = new(ModContent.ItemType<BoneBuckler>());
+                    return item;
+                }),
+                (OperationDelegate)((ref AberrantOculiRecipeInput input) => {
+                    input.primary.stack -= 1; input.secondary.stack -= 1; input.tertiary.stack -= 4;
                 })
             );
 

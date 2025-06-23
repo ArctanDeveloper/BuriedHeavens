@@ -215,7 +215,8 @@ namespace BuriedHeavens.Content.NPCs {
 		public override void OnChatButtonClicked(bool firstButton, ref string shop) {
 			if (firstButton) {
 				shop = ShopName;
-			}
+				if (ModContent.GetInstance<TreeSystem>().worldTree == -1) ModContent.GetInstance<TreeSystem>().worldTree = (int)WorldTreeID.LIFE;
+            }
 		}
 
 		public override void AddShops() {

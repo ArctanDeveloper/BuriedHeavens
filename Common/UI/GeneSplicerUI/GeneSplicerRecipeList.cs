@@ -1,6 +1,10 @@
 using BuriedHeavens.Content.Items;
+using BuriedHeavens.Content.Items.Accessories;
 using BuriedHeavens.Content.Items.Consumables;
+using BuriedHeavens.Content.Items.Placeable;
 using BuriedHeavens.Content.Items.Placeable.Fossils;
+using BuriedHeavens.Content.Items.Tools;
+using BuriedHeavens.Content.Items.Weapons;
 using System.Collections.Generic;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -20,6 +24,33 @@ namespace BuriedHeavens.Common.UI.GeneSplicerUI {
                 && currentCombo.Exists(x => x == bossSpawnEgg[4]) && itemSlots.Count <= 6)
             {
                 result = ModContent.ItemType<DubiousDinosaurEgg>();
+                return true;
+            }
+            List<int> gunWeapon = [ModContent.ItemType<SkeletalFossilItem>(), ItemID.FlintlockPistol];
+            if (currentCombo.Exists(x => x == gunWeapon[0]) && currentCombo.Exists(x => x == gunWeapon[1])
+                 && itemSlots.Count <= 3)
+            {
+                result = ModContent.ItemType<BoneWeapon>();
+                return true;
+            }
+            List<int> toothAccessory = [ModContent.ItemType<ToothFossilItem>(), ItemID.FleshBlock];
+            if (currentCombo.Exists(x => x == toothAccessory[0]) && currentCombo.Exists(x => x == toothAccessory[1])
+                && itemSlots.Count <= 3)
+            {
+                result = ModContent.ItemType<PrehestoricTooth>();
+                return true;
+            }
+            List<int> boneShield = [ModContent.ItemType<SkeletalFossilItem>(), ModContent.ItemType<HornFossilItem>(), ItemID.EoCShield];
+            if (currentCombo.Exists(x => x == boneShield[0]) && currentCombo.Exists(x => x == boneShield[1])
+                && currentCombo.Exists(x => x == boneShield[2]) && itemSlots.Count <= 4)
+            {
+                result = ModContent.ItemType<BoneBuckler>();
+                return true;
+            }
+            List<int> campfireSummon = [ItemID.Campfire, ModContent.ItemType<Brush>()];
+            if (currentCombo.Exists(x => x == campfireSummon[0]) && currentCombo.Exists(x => x == campfireSummon[1]) && itemSlots.Count <= 3)
+            {
+                result = ModContent.ItemType<PaleontologistsCampfireItem>();
                 return true;
             }
             result = ItemID.None;

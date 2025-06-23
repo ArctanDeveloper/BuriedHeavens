@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using BuriedHeavens.Common.Players;
 using BuriedHeavens.Common.Systems;
 using Microsoft.Xna.Framework;
+using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -43,6 +44,13 @@ namespace BuriedHeavens.Content.Items.Tools {
                     if (pos.ToVector2().Distance(nearby.ToVector2()) < 240f) {
                         player.QuickSpawnItem(player.GetSource_ItemUse(Item), Main.rand.NextBool(3) ? ModContent.ItemType<AncientDebris>() : ModContent.ItemType<AncientScrap>(), Main.rand.Next(1, 7));
                         NotableSystem.notableLocations.Remove(nearby);
+
+                        if (ModContent.GetInstance<TreeSystem>().worldTree == -1)
+                            ModContent.GetInstance<TreeSystem>().worldTree = (int)WorldTreeID.LIFE;
+                        if (!ModContent.GetInstance<TreeSystem>().MalkuthCheck())
+                        {
+                            ModContent.GetInstance<TreeSystem>().pathway.Append(0);
+                        }
                     } else {
                         if (player.TryGetModPlayer(out TreePlayer tree) && tree.hasData) {
                             PopupText.NewText(new AdvancedPopupRequest() {
@@ -58,6 +66,14 @@ namespace BuriedHeavens.Content.Items.Tools {
                 return true;
             }
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            Recipe recipe = CreateRecipe()
+                .AddIngredient(ItemID.Wood, 3)
+                .AddIngredient(ItemID.GrassSeeds, 6)
+                .AddTile(TileID.WorkBenches);
         }
     }
 }
