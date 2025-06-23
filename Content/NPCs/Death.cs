@@ -20,7 +20,7 @@ namespace BuriedHeavens.Content.NPCs {
 		private static Profiles.StackedNPCProfile NPCProfile;
 
 		public override void Load() {
-			//ShimmerHeadIndex = Mod.AddNPCHeadTexture(Type, Texture + "_Shimmer_Head");
+			ShimmerHeadIndex = Mod.AddNPCHeadTexture(Type, Texture + "_Shimmer_Head");
 		}
 
 		public override void SetStaticDefaults() {
@@ -33,7 +33,7 @@ namespace BuriedHeavens.Content.NPCs {
 			NPCID.Sets.AttackTime[Type] = 90;
 			NPCID.Sets.AttackAverageChance[Type] = 35;
 			NPCID.Sets.HatOffsetY[Type] = 4;
-			//NPCID.Sets.ShimmerTownTransform[Type] = true;
+			NPCID.Sets.ShimmerTownTransform[Type] = true;
 
 			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new() {
 				Velocity = 1f
@@ -54,8 +54,8 @@ namespace BuriedHeavens.Content.NPCs {
 			;
 
 			NPCProfile = new Profiles.StackedNPCProfile(
-				new Profiles.DefaultNPCProfile(Texture, NPCHeadLoader.GetHeadSlot(HeadTexture))
-				//new Profiles.DefaultNPCProfile(Texture + "_Shimmer", ShimmerHeadIndex)
+				new Profiles.DefaultNPCProfile(Texture, NPCHeadLoader.GetHeadSlot(HeadTexture)),
+				new Profiles.DefaultNPCProfile(Texture + "_Shimmer", ShimmerHeadIndex)
 			);
 		}
 
