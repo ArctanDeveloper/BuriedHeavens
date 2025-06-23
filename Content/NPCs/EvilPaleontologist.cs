@@ -64,8 +64,10 @@ namespace BuriedHeavens.Content.NPCs {
                     NPC.Transform(ModContent.NPCType<Paleontologist>());
                     TreeSystem.UnlockedPaleontologistSpawn = true;
                     TreeSystem tree = ModContent.GetInstance<TreeSystem>();
-                    tree.pathway = [0];
-                    tree.worldTree = (int)WorldTreeID.LIFE;
+                    if (tree.worldTree == -1) {
+                        tree.pathway = [0];
+                        tree.worldTree = (int)WorldTreeID.LIFE;
+                    }
                 } else if (AITimer % 20 == 0) {
 					if (NPC.HasValidTarget) {
                         Vector2 distance = NPC.targetRect.Center.ToVector2() - NPC.Center;

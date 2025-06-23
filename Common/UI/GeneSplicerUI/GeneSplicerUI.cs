@@ -1,4 +1,5 @@
 using BuriedHeavens.Common.Players;
+using BuriedHeavens.Common.UI.TreeUI;
 using BuriedHeavens.Content.Items;
 using BuriedHeavens.Content.Items.Consumables;
 using BuriedHeavens.Content.Items.Placeable.Fossils;
@@ -19,7 +20,7 @@ namespace BuriedHeavens.Common.UI.GeneSplicerUI {
     internal partial class GeneSplicerUIState : UIState {
         private Asset<Texture2D> dnaStrand;
 
-        private UIPanel background;
+        private DragImageUI background;
         private UIImageButton closeButton;
         private UIButton<string> spliceButton;
         private UIElement geneticsArea;
@@ -28,19 +29,21 @@ namespace BuriedHeavens.Common.UI.GeneSplicerUI {
         private UIPanel itemArea;
         public List<BetterItemSlot> itemSlots;
 
-        private List<int> deletions = new();
+        private List<int> deletions = [];
         private bool add = false;
 
         public override void OnInitialize() {
             dnaStrand = ModContent.Request<Texture2D>("BuriedHeavens/Assets/Textures/UI/DNAStrand");
 
-            background = new() {
-                BackgroundColor = Color.Blue,
-                BorderColor = Color.DarkBlue,
+            background = new(ModContent.Request<Texture2D>("BuriedHeavens/Assets/Textures/UI/GeneSplicerUI")) {
                 Left = new StyleDimension(0, 0.35f),
                 Top = new StyleDimension(0, 0.1f),
                 Width = new StyleDimension(500, 0f),
-                Height = new StyleDimension(600, 0f)
+                Height = new StyleDimension(600, 0f),
+                PaddingLeft = 12,
+                PaddingRight = 12,
+                PaddingBottom = 18,
+                PaddingTop = 20
             };            
 
             closeButton = new(ModContent.Request<Texture2D>("BuriedHeavens/Assets/Textures/UI/CloseButton")) {

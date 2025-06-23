@@ -105,15 +105,15 @@ namespace BuriedHeavens.Common.UI.TreeUI {
 
             Texture2D pixel = TextureAssets.MagicPixel.Value;
 
-            DrawLine(spriteBatch, position0, position1, pixel, Color.Black);
-            DrawLine(spriteBatch, position1, position2, pixel, Color.Black);
-            DrawLine(spriteBatch, position2, position3, pixel, Color.Black);
-
             base.DrawChildren(spriteBatch);
+
+            DrawLine(spriteBatch, position0 + new Vector2(0, -4 + SephirahNodeSingle1.GetOuterDimensions().Width * 0.5f), position1 - new Vector2(0, -4 + SephirahNodeSingle1.GetOuterDimensions().Width * 0.5f), pixel, Color.Black);
+            DrawLine(spriteBatch, position1 + new Vector2(0, -4 + SephirahNodeSingle1.GetOuterDimensions().Width * 0.5f), position2 - new Vector2(0, -4 + SephirahNodeSingle1.GetOuterDimensions().Width * 0.5f), pixel, Color.Black);
+            DrawLine(spriteBatch, position2 + new Vector2(0, -4 + SephirahNodeSingle1.GetOuterDimensions().Width * 0.5f), position3 - new Vector2(0, -4 + SephirahNodeSingle1.GetOuterDimensions().Width * 0.5f), pixel, Color.Black);
         }
 
         private static void DrawLine(SpriteBatch spriteBatch, Vector2 position0, Vector2 position1, Texture2D pixel, Color color) {
-            spriteBatch.Draw(pixel, new Rectangle((int)position0.X - 1, (int)position0.Y - 5, (int)position0.Distance(position1), 10), null, color, position0.AngleFrom(position1), new Vector2(1, 1), SpriteEffects.None, 1);
+            spriteBatch.Draw(pixel, new Rectangle((int)position0.X, (int)position0.Y, (int)position0.Distance(position1), 10), null, color, position0.AngleTo(position1), new Vector2(0, 5), SpriteEffects.None, 1);
         }
 
         private static void SetRect(UIElement uielement, float w = 0, float h = 0, float t = 0, float l = 0, float extraScaleW = 0, float extraScaleH = 0, float extraScaleL = 0, float extraScaleT = 0) {
@@ -137,10 +137,27 @@ namespace BuriedHeavens.Common.UI.TreeUI {
         }
 
         private void UpdateNode() {
-            MalkuthText.SetText(ModContent.GetInstance<TreeSystem>().pathway.Contains(0) ? MalkuthString : "?????");
-            YesodText.SetText(ModContent.GetInstance<TreeSystem>().pathway.Contains(1) ? YesodString : "?????");
-            TiphText.SetText(ModContent.GetInstance<TreeSystem>().pathway.Contains(2) ? TiphString : "?????");
-            KetherText.SetText(ModContent.GetInstance<TreeSystem>().pathway.Contains(3) ? KetherString : "?????");
+            TreeSystem tree = ModContent.GetInstance<TreeSystem>();
+            switch (tree.worldTree) {
+                case (int)WorldTreeID.LIFE:
+                    MalkuthText.SetText(tree.pathway.Contains(0) ? MalkuthString : "?????");
+                    YesodText.SetText(tree.pathway.Contains(1) ? YesodString : "?????");
+                    TiphText.SetText(tree.pathway.Contains(2) ? TiphString : "?????");
+                    KetherText.SetText(tree.pathway.Contains(3) ? KetherString : "?????");
+                    break;
+                case (int)WorldTreeID.DEATH:
+                    MalkuthText.SetText(tree.pathway.Contains(3) ? MalkuthString : "?????");
+                    YesodText.SetText(tree.pathway.Contains(2) ? YesodString : "?????");
+                    TiphText.SetText(tree.pathway.Contains(1) ? TiphString : "?????");
+                    KetherText.SetText(tree.pathway.Contains(0) ? KetherString : "?????");
+                    break;
+                default:
+                    MalkuthText.SetText("?????");
+                    YesodText.SetText("?????");
+                    TiphText.SetText("?????");
+                    KetherText.SetText("?????");
+                    break;
+            }
         }
     }
 }

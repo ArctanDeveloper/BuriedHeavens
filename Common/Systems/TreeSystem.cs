@@ -111,7 +111,7 @@ namespace BuriedHeavens.Common.Systems {
                     }
                 }
             }
-            Main.NewText(Language.GetTextValue("Mods.BuriedHeavens.Notifications.PaleontologistSetUpCamp"));
+            Main.NewText(Language.GetTextValue("Mods.BuriedHeavens.ChatNotifications.PaleontologistSetUpCamp"));
         }
 
         public override void SaveWorldData(TagCompound tag) {

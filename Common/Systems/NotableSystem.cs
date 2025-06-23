@@ -7,21 +7,22 @@ using Terraria.ModLoader.IO;
 
 namespace BuriedHeavens.Common.Systems {
     public class NotableSystem : ModSystem {
-        public const int TIME_LEFT = 1000;
+        public const int TIME_LEFT = 120000;
 
         public const string NOTABLE_LOCATIONS_TAG = "BuriedHeavens:NotableLocations";
         public const string TIME_LEFT_TAG = "BuriedHeavens:TimeLeft";
 
         public static List<Point16> notableLocations = [];
-        public static int timeLeft = 42000;
+        public static int timeLeft = 120000;
 
         public static Point16 Nearby(Point16 position) {
             float distance = float.MaxValue;
             Point16 go = new();
             foreach (Point16 pos in notableLocations) {
-                float rot = MathF.Sqrt((pos.X - position.X) * (pos.X - position.X) + (pos.Y - position.Y) * (pos.Y - position.Y));
+                float rot = (pos.X - position.X) * (pos.X - position.X) + (pos.Y - position.Y) * (pos.Y - position.Y);
                 if (rot < distance) {
                     go = pos;
+                    distance = rot;
                 }
             }
             return go;

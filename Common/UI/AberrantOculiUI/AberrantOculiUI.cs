@@ -9,12 +9,11 @@ using BuriedHeavens.Common.Players;
 using BuriedHeavens.Core.AberrantOculiCrafting;
 using Terraria.GameContent;
 using ReLogic.Graphics;
-using BuriedHeavens.Content;
-using log4net;
+using BuriedHeavens.Common.UI.TreeUI;
 
 namespace BuriedHeavens.Common.UI.AberrantOculiUI {
     internal class AberrantOculiUIState : UIState {
-        private UIPanel background;
+        private DragImageUI background;
         private UIImageButton closeButton;
 
         private BetterItemSlot output;
@@ -28,9 +27,7 @@ namespace BuriedHeavens.Common.UI.AberrantOculiUI {
         private int cachedRecipe = -1;
 
         public override void OnInitialize() {
-            background = new() {
-                BackgroundColor = Color.Blue,
-                BorderColor = Color.DarkBlue,
+            background = new(ModContent.Request<Texture2D>("BuriedHeavens/Assets/Textures/UI/OcculiTableUI")) {
                 Left = new StyleDimension(0, 0.35f),
                 Top = new StyleDimension(0, 0.1f),
                 Width = new StyleDimension(360, 0f),
@@ -39,10 +36,10 @@ namespace BuriedHeavens.Common.UI.AberrantOculiUI {
                 MarginBottom = 0,
                 MarginRight = 0,
                 MarginLeft = 0,
-                PaddingTop = 0,
-                PaddingBottom = 0,
-                PaddingRight = 0,
-                PaddingLeft = 0,
+                PaddingTop = 12,
+                PaddingBottom = 10,
+                PaddingRight = 12,
+                PaddingLeft = 12,
             };            
 
             closeButton = new(ModContent.Request<Texture2D>("BuriedHeavens/Assets/Textures/UI/CloseButton")) {
@@ -59,8 +56,8 @@ namespace BuriedHeavens.Common.UI.AberrantOculiUI {
             };
 
             output = new() {
-                Left = new StyleDimension(156, 0f),
-                Top = new StyleDimension(96, 0f),
+                Left = new StyleDimension(156 - 12, 0f),
+                Top = new StyleDimension(96 - 12, 0f),
                 MarginTop = 0,
                 MarginBottom = 0,
                 MarginRight = 0,
@@ -81,8 +78,8 @@ namespace BuriedHeavens.Common.UI.AberrantOculiUI {
             };
 
             primarySlot = new() {
-                Left = new StyleDimension(156, 0f),
-                Top = new StyleDimension(24, 0f),
+                Left = new StyleDimension(156 - 24, 0f),
+                Top = new StyleDimension(24 - 12, 0f),
                 MarginTop = 0,
                 MarginBottom = 0,
                 MarginRight = 0,
@@ -98,8 +95,8 @@ namespace BuriedHeavens.Common.UI.AberrantOculiUI {
             };
 
             secondarySlot = new() {
-                Left = new StyleDimension(228, 0f),
-                Top = new StyleDimension(96, 0f),
+                Left = new StyleDimension(228 - 24, 0f),
+                Top = new StyleDimension(96 - 12, 0f),
                 MarginTop = 0,
                 MarginBottom = 0,
                 MarginRight = 0,
@@ -115,8 +112,8 @@ namespace BuriedHeavens.Common.UI.AberrantOculiUI {
             };
 
             tertiarySlot = new() {
-                Left = new StyleDimension(156, 0f),
-                Top = new StyleDimension(168, 0f),
+                Left = new StyleDimension(156 - 24, 0f),
+                Top = new StyleDimension(168 - 12, 0f),
                 MarginTop = 0,
                 MarginBottom = 0,
                 MarginRight = 0,
@@ -132,8 +129,8 @@ namespace BuriedHeavens.Common.UI.AberrantOculiUI {
             };
 
             quaternarySlot = new() {
-                Left = new StyleDimension(84, 0f),
-                Top = new StyleDimension(96, 0f),
+                Left = new StyleDimension(84 - 12, 0f),
+                Top = new StyleDimension(96 - 12, 0f),
                 MarginTop = 0,
                 MarginBottom = 0,
                 MarginRight = 0,
@@ -150,7 +147,7 @@ namespace BuriedHeavens.Common.UI.AberrantOculiUI {
 
             tomeSlot = new() {
                 Left = new StyleDimension(24, 0f),
-                Top = new StyleDimension(-72, 1f),
+                Top = new StyleDimension(-72 + 10, 1f),
                 MarginTop = 0,
                 MarginBottom = 0,
                 MarginRight = 0,
@@ -167,7 +164,7 @@ namespace BuriedHeavens.Common.UI.AberrantOculiUI {
 
             relicSlot = new() {
                 Left = new StyleDimension(-72, 1f),
-                Top = new StyleDimension(-72, 1f),
+                Top = new StyleDimension(-72 + 10, 1f),
                 MarginTop = 0,
                 MarginBottom = 0,
                 MarginRight = 0,

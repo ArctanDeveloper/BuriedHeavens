@@ -19,21 +19,21 @@ namespace BuriedHeavens.Content.NPCs {
 		private static int ShimmerHeadIndex;
 		private static Profiles.StackedNPCProfile NPCProfile;
 
-		public override void Load() {
-			//ShimmerHeadIndex = Mod.AddNPCHeadTexture(Type, Texture + "_Shimmer_Head");
+        int timer = 0;
+
+        public override void Load() {
+			ShimmerHeadIndex = Mod.AddNPCHeadTexture(Type, Texture + "_Shimmer_Head");
 		}
 
 		public override void SetStaticDefaults() {
 			Main.npcFrameCount[Type] = 4;
 
-			NPCID.Sets.ExtraFramesCount[Type] = 0;
-			NPCID.Sets.AttackFrameCount[Type] = 0;
 			NPCID.Sets.DangerDetectRange[Type] = 700;
 			NPCID.Sets.AttackType[Type] = 2;
 			NPCID.Sets.AttackTime[Type] = 90;
 			NPCID.Sets.AttackAverageChance[Type] = 35;
 			NPCID.Sets.HatOffsetY[Type] = 4;
-			//NPCID.Sets.ShimmerTownTransform[Type] = true;
+			NPCID.Sets.ShimmerTownTransform[Type] = true;
 
 			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new() {
 				Velocity = 1f
@@ -54,24 +54,40 @@ namespace BuriedHeavens.Content.NPCs {
 			;
 
 			NPCProfile = new Profiles.StackedNPCProfile(
-				new Profiles.DefaultNPCProfile(Texture, NPCHeadLoader.GetHeadSlot(HeadTexture))
-				//new Profiles.DefaultNPCProfile(Texture + "_Shimmer", ShimmerHeadIndex)
+				new Profiles.DefaultNPCProfile(Texture, NPCHeadLoader.GetHeadSlot(HeadTexture)),
+				new Profiles.DefaultNPCProfile(Texture + "_Shimmer", ShimmerHeadIndex)
 			);
 		}
 
 		public override void SetDefaults() {
 			NPC.townNPC = true;
 			NPC.friendly = true;
-			NPC.width = 46;
-			NPC.height = 64;
+			NPC.width = 42;
+			NPC.height = 58;
 			NPC.aiStyle = 7;
 			NPC.damage = 45;
 			NPC.defense = 250;
 			NPC.lifeMax = 12500;
 			NPC.HitSound = SoundID.NPCHit1;
 			NPC.DeathSound = SoundID.NPCDeath1;
-			NPC.knockBackResist = 0.5f;
+			NPC.knockBackResist = 0.5f; 
 		}
+
+        public override void AI() {
+            NPC.FaceTarget();
+            timer++;
+        }
+
+        public override void FindFrame(int frameHeight) {
+			NPC.frame.Width = NPC.width;
+			NPC.frame.Height = NPC.height;
+			NPC.frame.X = 0;
+            if (NPC.velocity.Length() == 0) {
+                NPC.frame.Y = 0;
+            } else {
+                NPC.frame.Y = frameHeight * (1 + (timer / 20 % 3));
+            }
+        }
 
 		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry) {
 			bestiaryEntry.Info.AddRange([

@@ -16,7 +16,7 @@ Items: {
 
 	PolishingTableItem: {
 		DisplayName: Polishing Table
-		Tooltip: ""
+		Tooltip: Why my fine fellow, this contraption lets you sand away all those hard edges, and get something... Real nice.
 	}
 
 	AncientScrap: {
@@ -26,7 +26,7 @@ Items: {
 
 	AncientStarFragment: {
 		DisplayName: Ancient Star Fragment
-		Tooltip: Some fragment of the stars
+		Tooltip: Some fragment of the stars, calling for their old masters return. Beautiful.
 	}
 
 	SkullFossilItem: {
@@ -36,7 +36,7 @@ Items: {
 
 	PaleontologistsCertificate: {
 		DisplayName: Paleontologist's Certificate
-		Tooltip: ""
+		Tooltip: Marked as successfully completed by... The name is smudged out.
 	}
 
 	HornFossilItem: {
@@ -56,7 +56,7 @@ Items: {
 
 	PaleontologistsCampfireItem: {
 		DisplayName: Paleontologist's Campfire
-		Tooltip: A campfire to lure in a researcher
+		Tooltip: A campfire to lure in a researcher.
 	}
 
 	Brush: {
@@ -71,7 +71,13 @@ Items: {
 
 	DubiousDinosaurEgg: {
 		DisplayName: Dubious Dinosaur Egg
-		Tooltip: Summons... something
+		Tooltip:
+			'''
+			Summons... Something... 
+			But also... It's so... Crunchy...
+			I'm sure they wouldn't mind...
+			Crunchy...
+			'''
 	}
 
 	AzhdarchoideaRelic: {
@@ -98,6 +104,16 @@ Items: {
 		DisplayName: Monocle
 		Tooltip: Peer within and see the other side
 	}
+
+	Datagem: {
+		DisplayName: Datagem
+		Tooltip: ""
+	}
+
+	AzhdarchoideaBag: {
+		DisplayName: Azhdarchoidea Bag
+		Tooltip: ""
+	}
 }
 
 NPCs: {
@@ -119,8 +135,8 @@ NPCs: {
 			LikeNPC: I like {NPCName}.
 			DislikeNPC: I dislike {NPCName}.
 			HateNPC: I hate {NPCName}.
-			LikeNPC_Princess: I like {NPCName}.
-			Princess_LovesNPC: I like {NPCName}.
+			LikeNPC_Princess: "{NPCName} is fine I guess, but they keep knocking over all my fossils."
+			Princess_LovesNPC: "{NPCName} has got a bunch of cool old rocks!"
 		}
 
 		Census.SpawnCondition: Conditions unknown
@@ -147,8 +163,8 @@ NPCs: {
 			LikeNPC: I like {NPCName}.
 			DislikeNPC: I dislike {NPCName}.
 			HateNPC: I hate {NPCName}.
-			LikeNPC_Princess: I like {NPCName}.
-			Princess_LovesNPC: I like {NPCName}.
+			LikeNPC_Princess: I think {NPCName} could serve to mind her own buisness sometimes, but she's not offensive like the rest of you.
+			Princess_LovesNPC: "{NPCName} is kinda spooky sometimes, but I guess that's normal."
 		}
 
 		Census.SpawnCondition: Conditions unknown
@@ -156,4 +172,10 @@ NPCs: {
 }
 
 Keybinds.OpenTreeStatus.DisplayName: Open Tree Status
-Projectiles.BoneWeaponProjectile.DisplayName: Bone Weapon
+
+Projectiles: {
+	BoneWeaponProjectile.DisplayName: Bone Weapon
+	Ptersaur.DisplayName: Ptersaur
+}
+
+ChatNotifications.PaleontologistSetUpCamp: A strange miser has relocated to a location within your world.

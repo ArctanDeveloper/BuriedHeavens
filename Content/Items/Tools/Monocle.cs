@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Drawing.Printing;
+using BuriedHeavens.Common.Players;
 using BuriedHeavens.Common.Systems;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Xna.Framework;
@@ -42,8 +43,15 @@ namespace BuriedHeavens.Content.Items.Tools {
                     player.QuickSpawnItem(player.GetSource_ItemUse(Item), ModContent.ItemType<AncientStarFragment>(), Main.rand.Next(1, 7));
                     NotableSystem.notableLocations.Remove(nearby);
                 } else {
+                    if (player.TryGetModPlayer(out TreePlayer tree) && tree.hasData) {
+                        PopupText.NewText(new AdvancedPopupRequest() {
+                            Color = Color.Lerp(Color.Green, Color.Red, pos.ToVector2().Distance(nearby.ToVector2()) / 3200f),
+                            DurationInFrames = 120,
+                            Text = $"{pos.ToVector2().Distance(nearby.ToVector2()):F0} away."
+                        }, player.Top);
+                    }
                     lore = pos.ToVector2().DirectionTo(nearby.ToVector2()).SafeNormalize(Vector2.UnitX);
-                    Dust.QuickDustLine(player.Center + lore * 32, player.Center + lore * 48, 4, Color.Lerp(Color.Green, Color.Red, (pos.ToVector2().Distance(nearby.ToVector2()) / 3200f)));
+                    Dust.QuickDustLine(player.Center + lore * 32, player.Center + lore * 48, 4, Color.Lerp(Color.Green, Color.Red, pos.ToVector2().Distance(nearby.ToVector2()) / 3200f));
                 }
                 return true;
             }
