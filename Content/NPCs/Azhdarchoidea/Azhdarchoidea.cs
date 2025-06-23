@@ -1,8 +1,11 @@
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
+using System;
 using Terraria;
+using Terraria.Audio;
+using Terraria.Graphics.CameraModifiers;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace BuriedHeavens.Content.NPCs.Azhdarchoidea {
@@ -48,6 +51,7 @@ namespace BuriedHeavens.Content.NPCs.Azhdarchoidea {
         static Rectangle WingBackgroundRect = new();
         static Rectangle WingForegroundRect = new();
 
+
         public int AIState { get => (int)NPC.ai[0]; set => NPC.ai[0] = value; }
         public int AITimer { get => (int)NPC.ai[1]; set => NPC.ai[1] = value; }
 
@@ -66,6 +70,12 @@ namespace BuriedHeavens.Content.NPCs.Azhdarchoidea {
             NPC.lifeMax = 12500;
             NPC.width = 50;
             NPC.height = 50;
+
+            if (!Main.dedServ)
+            {
+                Music = MusicLoader.GetMusicSlot(Mod, "Assets/Music/AncientExtinctiongg");
+                SceneEffectPriority = SceneEffectPriority.BossLow;
+            }
         }
 
         public override void Load() {
@@ -78,7 +88,23 @@ namespace BuriedHeavens.Content.NPCs.Azhdarchoidea {
             WingForegroundTexture = ModContent.Request<Texture2D>("BuriedHeavens/Content/NPCs/Azhdarchoidea/AzhdarchoideaWingForeground");
         }
 
+        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+        {
+            cooldownSlot = ImmunityCooldownID.Bosses;
+            return true;
+        }
+
         public override void AI() {
+            if (NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
+            {
+                NPC.TargetClosest();
+            }
+            Player player = Main.player[NPC.target];
+            if (NPC.velocity == NPC.oldVelocity && NPC.oldVelocity == Vector2.Zero)
+            {
+                NPC.velocity = new(4f, 0);
+            }
+
             timer++;
             AITimer++;
 
@@ -87,11 +113,24 @@ namespace BuriedHeavens.Content.NPCs.Azhdarchoidea {
                 case (int)AzhdarchoideaAIState.FOLLOW:
                     break;
                 case (int)AzhdarchoideaAIState.DIVE_BOMB:
+                    NPC.velocity *= 2;
+                    if (NPC.HasValidTarget) NPC.AngleTo(player.Center);
                     break;
                 case (int)AzhdarchoideaAIState.PROJECTILE_RAIN:
                     break;
                 case (int)AzhdarchoideaAIState.PROJECTILE_SWARM:
                     break;
+            }
+        }
+
+        public override void HitEffect(NPC.HitInfo hit)
+        {
+            if (Main.netMode == NetmodeID.Server) return;
+            if (NPC.life <= 0) {
+                var entitySource = NPC.GetSource_Death();
+                SoundEngine.PlaySound(SoundID.Roar, NPC.Center);
+                PunchCameraModifier modifier = new PunchCameraModifier(NPC.Center, (Main.rand.NextFloat() * ((float)Math.PI * 2f)).ToRotationVector2(), 20f, 6f, 20, 1000f, FullName);
+                Main.instance.CameraModifiers.Add(modifier);
             }
         }
 

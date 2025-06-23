@@ -26,7 +26,7 @@ Items: {
 
 	AncientStarFragment: {
 		DisplayName: Ancient Star Fragment
-		Tooltip: ""
+		Tooltip: Some fragment of the stars
 	}
 
 	SkullFossilItem: {
@@ -35,7 +35,7 @@ Items: {
 	}
 
 	PaleontologistsCertificate: {
-		DisplayName: Paleontologists Certificate
+		DisplayName: Paleontologist's Certificate
 		Tooltip: ""
 	}
 
@@ -55,13 +55,13 @@ Items: {
 	}
 
 	PaleontologistsCampfireItem: {
-		DisplayName: Paleontologists Campfire
-		Tooltip: ""
+		DisplayName: Paleontologist's Campfire
+		Tooltip: A campfire to lure in a researcher
 	}
 
 	Brush: {
 		DisplayName: Brush
-		Tooltip: ""
+		Tooltip: Wipe away sand and snow to uncover artifacts from the past
 	}
 
 	BoneWeapon: {
@@ -71,7 +71,7 @@ Items: {
 
 	DubiousDinosaurEgg: {
 		DisplayName: Dubious Dinosaur Egg
-		Tooltip: ""
+		Tooltip: Summons... something
 	}
 
 	AzhdarchoideaRelic: {
@@ -96,7 +96,7 @@ Items: {
 
 	Monocle: {
 		DisplayName: Monocle
-		Tooltip: ""
+		Tooltip: Peer within and see the other side
 	}
 }
 
@@ -106,7 +106,7 @@ NPCs: {
 
 		TownNPCMood: {
 			Content: I am content.
-			NoHome: There isn't a single passable dwelling! Where are the fossils!
+			NoHome: There isn't a single passable dwelling! Where are the fossils?
 			FarFromHome: I am too far from home.
 			LoveSpace: I love having so much space.
 			DislikeCrowded: I dislike how crowded I am.

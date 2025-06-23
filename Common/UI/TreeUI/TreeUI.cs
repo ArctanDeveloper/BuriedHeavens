@@ -98,8 +98,6 @@ namespace BuriedHeavens.Common.UI.TreeUI {
         }
 
         protected override void DrawChildren(SpriteBatch spriteBatch) {
-            base.DrawChildren(spriteBatch);
-
             Vector2 position0 = SephirahNodeSingle1.GetInnerDimensions().Center();
             Vector2 position1 = SephirahNodeSingle2.GetInnerDimensions().Center();
             Vector2 position2 = SephirahNodeSingle3.GetInnerDimensions().Center();
@@ -110,6 +108,8 @@ namespace BuriedHeavens.Common.UI.TreeUI {
             DrawLine(spriteBatch, position0, position1, pixel, Color.Black);
             DrawLine(spriteBatch, position1, position2, pixel, Color.Black);
             DrawLine(spriteBatch, position2, position3, pixel, Color.Black);
+
+            base.DrawChildren(spriteBatch);
         }
 
         private static void DrawLine(SpriteBatch spriteBatch, Vector2 position0, Vector2 position1, Texture2D pixel, Color color) {

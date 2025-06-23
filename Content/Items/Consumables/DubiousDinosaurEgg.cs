@@ -29,6 +29,7 @@ namespace BuriedHeavens.Content.Items.Consumables {
 		}
 
 		public override bool CanUseItem(Player player) {
+			//return false;
 			return !NPC.AnyNPCs(ModContent.NPCType<Azhdarchoidea>());
 		}
 

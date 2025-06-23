@@ -1,18 +1,22 @@
+using BuriedHeavens.Common.Players;
+using BuriedHeavens.Content.Items;
+using BuriedHeavens.Content.Items.Consumables;
+using BuriedHeavens.Content.Items.Placeable.Fossils;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
+using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent.UI.Elements;
+using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.UI;
-using BuriedHeavens.Common.Players;
-using System;
-using ReLogic.Content;
-using Terraria.GameContent;
 using Terraria.ModLoader.UI;
+using Terraria.UI;
 
 namespace BuriedHeavens.Common.UI.GeneSplicerUI {
-    internal class GeneSplicerUIState : UIState {
+    internal partial class GeneSplicerUIState : UIState {
         private Asset<Texture2D> dnaStrand;
 
         private UIPanel background;
@@ -65,17 +69,13 @@ namespace BuriedHeavens.Common.UI.GeneSplicerUI {
             spliceButton = new("Splice") {
                 BackgroundColor = Color.DarkSlateBlue,
                 TextColor = Color.DimGray,
-                Left = new StyleDimension(-40, 0.5f),
+                Left = new StyleDimension(-125, 0.5f),
                 Top = new StyleDimension(-64, 1f),
                 Width = new StyleDimension(80, 0f),
                 Height = new StyleDimension(40, 0f)
             };
 
-            spliceButton.OnLeftClick += (mouseEvent, element) => {
-                if (itemSlots.Count > 1) {
-
-                }
-            };
+            spliceButton.OnLeftClick += new MouseEvent(SpliceButtonClicked);
 
             itemArea = new() {
                 BackgroundColor = Color.Blue,
@@ -109,7 +109,7 @@ namespace BuriedHeavens.Common.UI.GeneSplicerUI {
             background.Append(scrollbar);
             background.Append(itemArea);
             background.Append(geneticsArea);
-            geneticsArea.Append(spliceButton);
+            background.Append(spliceButton);
 
             // The idea here is you add in an item and a new slot gets added, if you remove an item that slot is removed.
             // Always one empty slot at the end to put an item into.
@@ -202,7 +202,7 @@ namespace BuriedHeavens.Common.UI.GeneSplicerUI {
 
                 if (itemSlots.Count > 1) {
                     spliceButton.BackgroundColor = Color.MediumBlue;
-                    spliceButton.TextColor = Color.Black;
+                    spliceButton.TextColor = Color.White;
                 } else {
                     spliceButton.BackgroundColor = Color.DarkSlateBlue;
                     spliceButton.TextColor = Color.DimGray;
@@ -215,10 +215,61 @@ namespace BuriedHeavens.Common.UI.GeneSplicerUI {
 
                 if (itemSlots.Count > 1) {
                     spliceButton.BackgroundColor = Color.MediumBlue;
-                    spliceButton.TextColor = Color.Black;
+                    spliceButton.TextColor = Color.White;
                 } else {
                     spliceButton.BackgroundColor = Color.DarkSlateBlue;
                     spliceButton.TextColor = Color.DimGray;
+                }
+            }
+
+            if (RecipeCheck(itemSlots, out int result))
+            {
+                spliceButton.BackgroundColor = Color.MediumBlue;
+                spliceButton.TextColor = Color.White;
+            }
+            else
+            {
+                spliceButton.BackgroundColor = Color.DarkSlateBlue;
+                spliceButton.TextColor = Color.DimGray;
+            }
+        }
+
+        private bool CustomCrafting(List<BetterItemSlot> itemSlots)
+        {
+            var player = Main.LocalPlayer;
+            if (RecipeCheck(itemSlots, out int result))
+            {
+                player.QuickSpawnItem(player.GetSource_FromThis(), result);
+                return true;
+            }
+            return false;
+        }
+
+        private static List<int> GetCurrentCombination(List<BetterItemSlot> itemSlots)
+        {
+            List<int> currentCombination = [];
+            for (int i = 0; i < itemSlots.Count; i++)
+            {
+                currentCombination.Add(itemSlots[i].Item.type);
+            }
+
+            return currentCombination;
+        }
+
+        private void SpliceButtonClicked(UIMouseEvent evt, UIElement listeningElement)
+        {
+            if (RecipeCheck(itemSlots, out int result))
+            {
+                if (CustomCrafting(itemSlots))
+                {
+                    SoundEngine.PlaySound(SoundID.MenuClose);
+                    SoundEngine.PlaySound(SoundID.ResearchComplete);
+                    if (evt.Target == listeningElement && Main.LocalPlayer.TryGetModPlayer(out GeneSplicerPlayer geneSplicerPlayer))
+                    {
+                        itemSlots.Clear();
+                        itemArea.RemoveAllChildren();
+                        AddSlot();
+                    }
                 }
             }
         }

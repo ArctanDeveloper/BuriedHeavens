@@ -99,6 +99,19 @@ namespace BuriedHeavens {
                 })
             );
 
+            Call("addAberrantOculiRecipe",
+                (InputDelegate)((ref AberrantOculiRecipeInput input) => {
+                    return input.primary.type == ItemID.DirtBlock && input.primary.stack > 3;
+                }),
+                (OutputDelegate)((ref AberrantOculiRecipeInput input) => {
+                    Item item = new(ItemID.StoneBlock, 4);
+                    return item;
+                }),
+                (OperationDelegate)((ref AberrantOculiRecipeInput input) => {
+                    input.primary.stack -= 1;
+                })
+            );
+
             Paleontologist.ValidFossilTiles.Add(ModContent.TileType<HornFossil>());
             Paleontologist.ValidFossilTiles.Add(ModContent.TileType<SkeletalFossil>());
             Paleontologist.ValidFossilTiles.Add(ModContent.TileType<SkullFossil>());
@@ -118,6 +131,8 @@ namespace BuriedHeavens {
             Brush.BrushableTiles.Add(TileID.Sandstone);
             Brush.BrushableTiles.Add(TileID.DesertFossil);
             Brush.BrushableTiles.Add(TileID.SnowBlock);
+
+
         }
 
         public override void Load() {

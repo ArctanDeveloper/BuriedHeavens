@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using System.Drawing.Printing;
 using BuriedHeavens.Common.Systems;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
