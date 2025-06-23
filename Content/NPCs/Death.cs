@@ -1,7 +1,8 @@
-using System.Collections.Generic;
 using BuriedHeavens.Common.Systems;
 using BuriedHeavens.Content.Tiles;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
@@ -155,7 +156,13 @@ namespace BuriedHeavens.Content.NPCs {
 		public override void OnChatButtonClicked(bool firstButton, ref string shop) {
 			if (firstButton) {
 				shop = ShopName;
-			}
+                if (ModContent.GetInstance<TreeSystem>().worldTree != (int)WorldTreeID.DEATH)
+					ModContent.GetInstance<TreeSystem>().worldTree = (int)WorldTreeID.DEATH;
+                if (!ModContent.GetInstance<TreeSystem>().MalkuthCheck())
+                {
+                    ModContent.GetInstance<TreeSystem>().pathway.Append(0);
+                }
+            }
 		}
 
 		public override void AddShops() {

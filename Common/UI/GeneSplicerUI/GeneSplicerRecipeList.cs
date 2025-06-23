@@ -5,7 +5,6 @@ using BuriedHeavens.Content.Items.Placeable;
 using BuriedHeavens.Content.Items.Placeable.Fossils;
 using BuriedHeavens.Content.Items.Tools;
 using BuriedHeavens.Content.Items.Weapons;
-using BuriedHeavens.Content.Tiles;
 using System.Collections.Generic;
 using Terraria.ID;
 using Terraria.ModLoader;

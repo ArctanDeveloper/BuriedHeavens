@@ -45,6 +45,8 @@ namespace BuriedHeavens.Content.Items.Tools {
                         player.QuickSpawnItem(player.GetSource_ItemUse(Item), Main.rand.NextBool(3) ? ModContent.ItemType<AncientDebris>() : ModContent.ItemType<AncientScrap>(), Main.rand.Next(1, 7));
                         NotableSystem.notableLocations.Remove(nearby);
 
+                        if (ModContent.GetInstance<TreeSystem>().worldTree == -1)
+                            ModContent.GetInstance<TreeSystem>().worldTree = (int)WorldTreeID.LIFE;
                         if (!ModContent.GetInstance<TreeSystem>().MalkuthCheck())
                         {
                             ModContent.GetInstance<TreeSystem>().pathway.Append(0);
