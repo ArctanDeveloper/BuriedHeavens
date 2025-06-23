@@ -58,5 +58,13 @@ namespace BuriedHeavens.Content.Items.Tools {
             }
             return false;
         }
+
+        public override void AddRecipes()
+        {
+            Recipe recipe = CreateRecipe()
+                .AddIngredient(ItemID.Wood, 3)
+                .AddIngredient(ItemID.GrassSeeds, 6)
+                .AddTile(TileID.WorkBenches);
+        }
     }
 }

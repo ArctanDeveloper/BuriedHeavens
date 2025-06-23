@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using BuriedHeavens.Content.Items;
+using BuriedHeavens.Content.Items.Accessories;
 using BuriedHeavens.Content.Items.Consumables;
 using BuriedHeavens.Content.Items.Placeable.Fossils;
 using BuriedHeavens.Content.Items.Tools;
@@ -116,6 +117,36 @@ namespace BuriedHeavens {
                 (OperationDelegate)((ref AberrantOculiRecipeInput input) => {
                     input.primary.stack -= 1; input.secondary.stack -= 1; input.tertiary.stack -= 1;
                     input.quaternary.stack -= 1; input.relic.stack -= 5;
+                })
+            );
+
+            Call("addAberrantOculiRecipe",
+                (InputDelegate)((ref AberrantOculiRecipeInput input) => {
+                    return input.primary.type == ItemID.Lens && input.primary.stack > 5 &&
+                    input.secondary.type == ItemID.GoldBar && input.primary.stack > 0 &&
+                    input.relic.type == ItemID.Star && input.relic.stack > 2;
+                }),
+                (OutputDelegate)((ref AberrantOculiRecipeInput input) => {
+                    Item item = new(ModContent.ItemType<Monocle>());
+                    return item;
+                }),
+                (OperationDelegate)((ref AberrantOculiRecipeInput input) => {
+                    input.primary.stack -= 6; input.secondary.stack -= 1; input.relic.stack -= 3;
+                })
+            );
+
+            Call("addAberrantOculiRecipe",
+                (InputDelegate)((ref AberrantOculiRecipeInput input) => {
+                    return input.primary.type == ModContent.ItemType<SkeletalFossilItem>() && input.primary.stack > 0 &&
+                    input.secondary.type == ItemID.CobaltShield && input.primary.stack > 0 &&
+                    input.relic.type == ItemID.Star && input.relic.stack > 0;
+                }),
+                (OutputDelegate)((ref AberrantOculiRecipeInput input) => {
+                    Item item = new(ModContent.ItemType<BoneBuckler>());
+                    return item;
+                }),
+                (OperationDelegate)((ref AberrantOculiRecipeInput input) => {
+                    input.primary.stack -= 1; input.secondary.stack -= 1; input.relic.stack -= 1;
                 })
             );
 
