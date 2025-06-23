@@ -5,9 +5,12 @@ using BuriedHeavens.Content.Tiles;
 using BuriedHeavens.Core.Progression;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using ReLogic.Content;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent.UI.Elements;
+using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
@@ -146,5 +149,31 @@ namespace BuriedHeavens.Common.Systems {
         public bool YesodCheck() => pathway.Contains(1);
         public bool TiphCheck() => pathway.Contains(2);
         public bool KetherCheck() => pathway.Contains(3);
+
+        public void DebugFeature()
+        {
+            SoundEngine.PlaySound(SoundID.Item4);
+            if (!MalkuthCheck())
+            {
+                worldTree = (int)WorldTreeID.LIFE;
+                pathway.Append(0);
+                return;
+            }
+            if (MalkuthCheck() && !YesodCheck())
+            {
+                pathway.Append(1);
+                return;
+            }
+            if (YesodCheck() && !TiphCheck())
+            {
+                pathway.Append(2);
+                return;
+            }
+            if (TiphCheck() && !KetherCheck())
+            {
+                pathway.Append(3);
+                return;
+            }
+        }
     }
 }

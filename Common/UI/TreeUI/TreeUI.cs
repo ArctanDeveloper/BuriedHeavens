@@ -19,7 +19,14 @@ namespace BuriedHeavens.Common.UI.TreeUI {
         //private UIElement SephirahNodeSingle;
         private UIElement SephirahNodeTree;
         public PanelUI DraggablePanel;
-        private readonly string KetherString = "Kether", TiphString = "Tiphereth", YesodString = "Jesod", MalkuthString = "Malchuth";
+        private const string KetherString = "Kether",
+            TiphString = "Tiphereth",
+            YesodString = "Jesod",
+            MalkuthString = "Malchuth";
+        private const string KetherStringDeath = "Thaumiel",
+            TiphStringDeath = "Tagiriron",
+            YesodStringDeath = "Gamaliel",
+            MalkuthStringDeath = "Lilith";
         private UIText KetherText, TiphText, YesodText, MalkuthText;
         //private List<BetterItemSlot> itemSlots;
         //private readonly float itemSlotSize = 52 * 0.65f;
@@ -137,10 +144,21 @@ namespace BuriedHeavens.Common.UI.TreeUI {
         }
 
         private void UpdateNode() {
-            MalkuthText.SetText(ModContent.GetInstance<TreeSystem>().pathway.Contains(0) ? MalkuthString : "?????");
-            YesodText.SetText(ModContent.GetInstance<TreeSystem>().pathway.Contains(1) ? YesodString : "?????");
-            TiphText.SetText(ModContent.GetInstance<TreeSystem>().pathway.Contains(2) ? TiphString : "?????");
-            KetherText.SetText(ModContent.GetInstance<TreeSystem>().pathway.Contains(3) ? KetherString : "?????");
+            var modContent = ModContent.GetInstance<TreeSystem>();
+            if (modContent.worldTree == (int)WorldTreeID.DEATH)
+            {
+                MalkuthText.SetText(modContent.pathway.Contains(3) ? MalkuthStringDeath : "?????");
+                YesodText.SetText(modContent.pathway.Contains(2) ? YesodStringDeath : "?????");
+                TiphText.SetText(modContent.pathway.Contains(1) ? TiphStringDeath : "?????");
+                KetherText.SetText(modContent.pathway.Contains(0) ? KetherStringDeath : "?????");
+            }
+            else
+            {
+                MalkuthText.SetText(modContent.pathway.Contains(0) ? MalkuthString : "?????");
+                YesodText.SetText(modContent.pathway.Contains(1) ? YesodString : "?????");
+                TiphText.SetText(modContent.pathway.Contains(2) ? TiphString : "?????");
+                KetherText.SetText(modContent.pathway.Contains(3) ? KetherString : "?????");
+            }
         }
     }
 }
