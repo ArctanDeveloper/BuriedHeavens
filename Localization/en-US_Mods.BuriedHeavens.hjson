@@ -30,7 +30,7 @@ Items: {
 	}
 
 	SkullFossilItem: {
-		DisplayName: Skull Fossil Item
+		DisplayName: Skull Fossil
 		Tooltip: ""
 	}
 
@@ -40,22 +40,22 @@ Items: {
 	}
 
 	HornFossilItem: {
-		DisplayName: Horn Fossil Item
+		DisplayName: Horn Fossil
 		Tooltip: ""
 	}
 
 	SkeletalFossilItem: {
-		DisplayName: Skeletal Fossil Item
+		DisplayName: Skeletal Fossil
 		Tooltip: ""
 	}
 
 	ToothFossilItem: {
-		DisplayName: Tooth Fossil Item
+		DisplayName: Tooth Fossil
 		Tooltip: ""
 	}
 
 	PaleontologistsCampfireItem: {
-		DisplayName: Paleontologists Campfire Item
+		DisplayName: Paleontologists Campfire
 		Tooltip: ""
 	}
 
@@ -63,11 +63,74 @@ Items: {
 		DisplayName: Brush
 		Tooltip: ""
 	}
+
+	BoneWeapon: {
+		DisplayName: Bone Weapon
+		Tooltip: ""
+	}
+
+	DubiousDinosaurEgg: {
+		DisplayName: Dubious Dinosaur Egg
+		Tooltip: ""
+	}
+
+	AzhdarchoideaRelic: {
+		DisplayName: Azhdarchoidea Relic
+		Tooltip: ""
+	}
+
+	BoneBuckler: {
+		DisplayName: Bone Buckler
+		Tooltip: ""
+	}
+
+	PrehestoricTooth: {
+		DisplayName: Prehestoric Tooth
+		Tooltip: ""
+	}
+
+	AzhdarchoideaTrophy: {
+		DisplayName: Azhdarchoidea Trophy
+		Tooltip: ""
+	}
+
+	Monocle: {
+		DisplayName: Monocle
+		Tooltip: ""
+	}
 }
 
 NPCs: {
 	Paleontologist: {
 		DisplayName: Paleontologist
+
+		TownNPCMood: {
+			Content: I am content.
+			NoHome: There isn't a single passable dwelling! Where are the fossils!
+			FarFromHome: I am too far from home.
+			LoveSpace: I love having so much space.
+			DislikeCrowded: I dislike how crowded I am.
+			HateCrowded: I hate how crowded I am.
+			LoveBiome: I love {BiomeName}.
+			LikeBiome: I like {BiomeName}.
+			DislikeBiome: I dislike {BiomeName}.
+			HateBiome: I hate {BiomeName}.
+			LoveNPC: I love {NPCName}.
+			LikeNPC: I like {NPCName}.
+			DislikeNPC: I dislike {NPCName}.
+			HateNPC: I hate {NPCName}.
+			LikeNPC_Princess: I like {NPCName}.
+			Princess_LovesNPC: I like {NPCName}.
+		}
+
+		Census.SpawnCondition: Conditions unknown
+	}
+
+	Azhdarchoidea.DisplayName: Azhdarchoidea
+	EvilPaleontologist.DisplayName: Evil Paleontologist
+
+	Death: {
+		DisplayName: Death
 
 		TownNPCMood: {
 			Content: I am content.
@@ -93,3 +156,4 @@ NPCs: {
 }
 
 Keybinds.OpenTreeStatus.DisplayName: Open Tree Status
+Projectiles.BoneWeaponProjectile.DisplayName: Bone Weapon

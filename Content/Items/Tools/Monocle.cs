@@ -9,9 +9,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace BuriedHeavens.Content.Items.Tools {
-    public class Brush : ModItem {
+    public class Monocle : ModItem {
         Vector2 lore = new();
-        public static List<int> BrushableTiles = [];
 
         public override void SetStaticDefaults() {
             Item.ResearchUnlockCount = 1;
@@ -20,8 +19,8 @@ namespace BuriedHeavens.Content.Items.Tools {
         }
 
         public override void SetDefaults() {
-            Item.width = 22;
-            Item.height = 22;
+            Item.width = 32;
+            Item.height = 32;
             Item.value = Item.buyPrice(gold: 1, silver: 50, copper: 75);
             Item.useTime = 15;
             Item.useAnimation = 15;
@@ -36,18 +35,15 @@ namespace BuriedHeavens.Content.Items.Tools {
         }
 
         public override bool? UseItem(Player player) {
-            if (player.ZoneDesert || player.ZoneUndergroundDesert || player.ZoneSnow) {
+            if (!(player.ZoneDesert || player.ZoneUndergroundDesert || player.ZoneSnow)) {
                 Point16 pos = Main.MouseWorld.ToTileCoordinates16();
-                Tile tile = Framing.GetTileSafely(pos);
-                if (BrushableTiles.Contains(tile.TileType)) {
-                    Point16 nearby = NotableSystem.Nearby(pos);
-                    if (pos.ToVector2().Distance(nearby.ToVector2()) < 240f) {
-                        player.QuickSpawnItem(player.GetSource_ItemUse(Item), Main.rand.NextBool(3) ? ModContent.ItemType<AncientDebris>() : ModContent.ItemType<AncientScrap>(), Main.rand.Next(1, 7));
-                        NotableSystem.notableLocations.Remove(nearby);
-                    } else {
-                        lore = pos.ToVector2().DirectionTo(nearby.ToVector2()).SafeNormalize(Vector2.UnitX);
-                        Dust.QuickDustLine(player.Center + lore * 32, player.Center + lore * 48, 4, Color.Lerp(Color.Green, Color.Red, pos.ToVector2().Distance(nearby.ToVector2()) / 3200f));
-                    }
+                Point16 nearby = NotableSystem.Nearby(pos);
+                if (pos.ToVector2().Distance(nearby.ToVector2()) < 240f) {
+                    player.QuickSpawnItem(player.GetSource_ItemUse(Item), ModContent.ItemType<AncientStarFragment>(), Main.rand.Next(1, 7));
+                    NotableSystem.notableLocations.Remove(nearby);
+                } else {
+                    lore = pos.ToVector2().DirectionTo(nearby.ToVector2()).SafeNormalize(Vector2.UnitX);
+                    Dust.QuickDustLine(player.Center + lore * 32, player.Center + lore * 48, 4, Color.Lerp(Color.Green, Color.Red, (pos.ToVector2().Distance(nearby.ToVector2()) / 3200f)));
                 }
                 return true;
             }

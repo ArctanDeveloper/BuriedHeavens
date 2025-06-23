@@ -1,13 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using BuriedHeavens.Core.Progression;
-using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Content;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
@@ -19,7 +13,7 @@ namespace BuriedHeavens.Common.Systems {
         public const string TIME_LEFT_TAG = "BuriedHeavens:TimeLeft";
 
         public static List<Point16> notableLocations = [];
-        public static int timeLeft = 1000;
+        public static int timeLeft = 42000;
 
         public static Point16 Nearby(Point16 position) {
             float distance = float.MaxValue;
@@ -33,6 +27,14 @@ namespace BuriedHeavens.Common.Systems {
             return go;
         }
 
+        public override void PreUpdateWorld() {
+            timeLeft--;
+            if (timeLeft <= 0) {
+                timeLeft = TIME_LEFT;
+                notableLocations.Add(new Point16(Main.rand.Next(0, Main.maxTilesX), Main.rand.Next(0, Main.maxTilesY)));
+            }
+        }
+
         public override void SaveWorldData(TagCompound tag) {
             tag.Set(NOTABLE_LOCATIONS_TAG, notableLocations);
             tag.Set(TIME_LEFT_TAG, timeLeft);
@@ -40,7 +42,7 @@ namespace BuriedHeavens.Common.Systems {
 
         public override void LoadWorldData(TagCompound tag) {
             if (tag.ContainsKey(NOTABLE_LOCATIONS_TAG)) {
-                notableLocations = tag.GetList<Point16>(NOTABLE_LOCATIONS_TAG).ToList();
+                notableLocations = [.. tag.GetList<Point16>(NOTABLE_LOCATIONS_TAG)];
             } else {
                 GenerateNotableLocations();
             }
@@ -50,7 +52,7 @@ namespace BuriedHeavens.Common.Systems {
             }
         }
 
-        public void GenerateNotableLocations() {
+        public static void GenerateNotableLocations() {
             int sections = WorldGen.GetWorldSize() switch  {
                 0 => 500,
                 1 => 1000,

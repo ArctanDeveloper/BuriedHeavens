@@ -1,11 +1,7 @@
-using System;
 using System.Collections.Generic;
 using BuriedHeavens.Common.Systems;
-using BuriedHeavens.Content.Items;
-using BuriedHeavens.Content.Items.Placeable.Fossils;
-using BuriedHeavens.Content.Items.Tools;
+using BuriedHeavens.Content.Tiles;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
@@ -17,29 +13,27 @@ using Terraria.Utilities;
 
 namespace BuriedHeavens.Content.NPCs {
     [AutoloadHead]
-	public class Paleontologist : ModNPC {
-        public static List<int> ValidFossilTiles = [];
-        public static List<int> ValidFossilItems = [];
+	public class Death : ModNPC {
         public const string ShopName = "Shop";
 
 		private static int ShimmerHeadIndex;
 		private static Profiles.StackedNPCProfile NPCProfile;
 
 		public override void Load() {
-			ShimmerHeadIndex = Mod.AddNPCHeadTexture(Type, Texture + "_Shimmer_Head");
+			//ShimmerHeadIndex = Mod.AddNPCHeadTexture(Type, Texture + "_Shimmer_Head");
 		}
 
 		public override void SetStaticDefaults() {
-			Main.npcFrameCount[Type] = 16;
+			Main.npcFrameCount[Type] = 4;
 
 			NPCID.Sets.ExtraFramesCount[Type] = 0;
 			NPCID.Sets.AttackFrameCount[Type] = 0;
 			NPCID.Sets.DangerDetectRange[Type] = 700;
-			NPCID.Sets.AttackType[Type] = 1;
+			NPCID.Sets.AttackType[Type] = 2;
 			NPCID.Sets.AttackTime[Type] = 90;
 			NPCID.Sets.AttackAverageChance[Type] = 35;
 			NPCID.Sets.HatOffsetY[Type] = 4;
-			NPCID.Sets.ShimmerTownTransform[Type] = true;
+			//NPCID.Sets.ShimmerTownTransform[Type] = true;
 
 			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new() {
 				Velocity = 1f
@@ -49,42 +43,40 @@ namespace BuriedHeavens.Content.NPCs {
 
 			// Talks a bit about their personality.
 			NPC.Happiness
-				.SetBiomeAffection<DesertBiome>(AffectionLevel.Love) // Loves because of all the fossils there, and it's hot enough to be comfortable.
+				.SetBiomeAffection<DungeonBiome>(AffectionLevel.Love) // Loves the dead.
 				.SetBiomeAffection<SnowBiome>(AffectionLevel.Like) // Likes because it's a good place for fossils, but it's a bit too cold for them.
 				.SetBiomeAffection<ForestBiome>(AffectionLevel.Dislike) // Dislikes becuase there aren't that many places to find things.
-				.SetBiomeAffection<DungeonBiome>(AffectionLevel.Hate) // Hates because the remains are desecrated and unstudyable.
-				.SetNPCAffection(NPCID.Merchant, AffectionLevel.Love) // Loves because they will sell them back fossils at a cheaper price.
+				.SetBiomeAffection<DesertBiome>(AffectionLevel.Hate) // Hates because the remains are desecrated and unstudyable.
+				.SetNPCAffection(NPCID.Wizard, AffectionLevel.Love) // Loves because they will sell them back fossils at a cheaper price.
 				.SetNPCAffection(NPCID.Guide, AffectionLevel.Like) // Likes because they help them identify fossils sometimes.
 				.SetNPCAffection(NPCID.Dryad, AffectionLevel.Dislike) // Dislikes because they chastize them for digging up fossils.
 				.SetNPCAffection(NPCID.Demolitionist, AffectionLevel.Hate) // Hates because they are likely to destroy fossils with their explosives.
 			;
 
 			NPCProfile = new Profiles.StackedNPCProfile(
-				new Profiles.DefaultNPCProfile(Texture, NPCHeadLoader.GetHeadSlot(HeadTexture)),
-				new Profiles.DefaultNPCProfile(Texture + "_Shimmer", ShimmerHeadIndex)
+				new Profiles.DefaultNPCProfile(Texture, NPCHeadLoader.GetHeadSlot(HeadTexture))
+				//new Profiles.DefaultNPCProfile(Texture + "_Shimmer", ShimmerHeadIndex)
 			);
 		}
 
 		public override void SetDefaults() {
 			NPC.townNPC = true;
 			NPC.friendly = true;
-			NPC.width = 40;
-			NPC.height = 56;
+			NPC.width = 46;
+			NPC.height = 64;
 			NPC.aiStyle = 7;
 			NPC.damage = 45;
-			NPC.defense = 25;
-			NPC.lifeMax = 1250;
+			NPC.defense = 250;
+			NPC.lifeMax = 12500;
 			NPC.HitSound = SoundID.NPCHit1;
 			NPC.DeathSound = SoundID.NPCDeath1;
 			NPC.knockBackResist = 0.5f;
-
-			AnimationType = NPCID.Guide;
 		}
 
 		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry) {
 			bestiaryEntry.Info.AddRange([
 				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
-				new FlavorTextBestiaryInfoElement("Mods.BuriedHeavens.Bestiary.Paleontologist")
+				new FlavorTextBestiaryInfoElement("Mods.BuriedHeavens.Bestiary.Death")
 			]);
 		}
 
@@ -92,7 +84,7 @@ namespace BuriedHeavens.Content.NPCs {
 			int num = NPC.life > 0 ? 2 : 25;
 
 			for (int k = 0; k < num; k++) {
-				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Sand);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.AncientLight);
 			}
 
 			if (Main.netMode != NetmodeID.Server && NPC.life <= 0) {
@@ -116,7 +108,7 @@ namespace BuriedHeavens.Content.NPCs {
 		}
 
 		public override bool CanTownNPCSpawn(int numTownNPCs) {
-			if (TreeSystem.UnlockedPaleontologistSpawn) {
+			if (ModContent.GetInstance<TreeSystem>().worldTree == (int)WorldTreeID.DEATH) {
 				return true;
 			}
             
@@ -127,7 +119,7 @@ namespace BuriedHeavens.Content.NPCs {
 			for (int x = left; x <= right; x++) {
 				for (int y = top; y <= bottom; y++) {
 					int type = Main.tile[x, y].TileType;
-					if (ValidFossilTiles.Contains(type)) {
+					if (type == ModContent.TileType<AberrantOculi>()) {
                         return true;
                     }
                 }
@@ -142,66 +134,14 @@ namespace BuriedHeavens.Content.NPCs {
 
 		public override List<string> SetNPCNameList() {
 			return [
-				"Karen",
-				"E. Drinker Cope",
-				"Bakker",
-				"Darwin",
-                "Zhiming",
-                "Horner",
-                "James",
-                "Mary",
-                "Wolfgang",
-                "Carl",
-                "Irene Crespin",
-                "Margaret C.",
-                "Taiping",
-                "Georgii",
-                "Vera Gromova",
-                "Wataru Ishijima",
-                "Junchang",
-                "Yoshiaki",
-                "Ernesto Pérez",
-                "Reisz",
-                "Guilherme",
-                "Rosalvina",
-                "Scheibner",
-                "Brian J. Ford",
-                "Vishnu-Mittre",
-                "Xu Xing",
-                "Anusuya",
-                "Philip J. Senter"
+				"Death"
 			];
 		}
 
 		public override string GetChat() {
 			WeightedRandom<string> chat = new();
-
-            int merchant = NPC.FindFirstNPC(NPCID.Merchant);
-            if (merchant >= 0 && Main.rand.NextBool(3)) {
-                chat.Add(Language.GetTextValue("Mods.BuriedHeavens.Dialogue.Paleontologist.MerchantDialogue", Main.npc[merchant].GivenName));
-            }
-
-            int guide = NPC.FindFirstNPC(NPCID.Guide);
-            if (guide >= 0 && Main.rand.NextBool(4)) {
-                chat.Add(Language.GetTextValue("Mods.BuriedHeavens.Dialogue.Paleontologist.GuideDialogue", Main.npc[guide].GivenName));
-            }
             
-            int dryad = NPC.FindFirstNPC(NPCID.Dryad);
-            if (dryad >= 0 && Main.rand.NextBool(4)) {
-                chat.Add(Language.GetTextValue("Mods.BuriedHeavens.Dialogue.Paleontologist.DryadDialogue", Main.npc[dryad].GivenName));
-            }
-            
-            int demolitionist = NPC.FindFirstNPC(NPCID.Demolitionist);
-            if (demolitionist >= 0 && Main.rand.NextBool(3)) {
-                chat.Add(Language.GetTextValue("Mods.BuriedHeavens.Dialogue.Paleontologist.DemolitionistDialogue", Main.npc[demolitionist].GivenName));
-            }
-            
-			chat.Add(Language.GetTextValue("Mods.BuriedHeavens.Dialogue.Paleontologist.StandardDialogue1"));
-			chat.Add(Language.GetTextValue("Mods.BuriedHeavens.Dialogue.Paleontologist.StandardDialogue2"));
-			chat.Add(Language.GetTextValue("Mods.BuriedHeavens.Dialogue.Paleontologist.StandardDialogue3"));
-			chat.Add(Language.GetTextValue("Mods.BuriedHeavens.Dialogue.Paleontologist.StandardDialogue4"));
-
-            
+			chat.Add(Language.GetTextValue("Mods.BuriedHeavens.Dialogue.Death.StandardDialogue1"));
 
 			string chosenChat = chat;
 
@@ -220,27 +160,8 @@ namespace BuriedHeavens.Content.NPCs {
 
 		public override void AddShops() {
             NPCShop npcShop = new NPCShop(Type, ShopName)
-                .Add(ItemID.Grenade)
-                .Add(ItemID.SandBlock)
-                .Add(ItemID.DesertFossil)
-				.Add<Brush>();
-            if (Main.rand.NextBool(5)) {
-                npcShop.Add<SkullFossilItem>(Condition.PlayerCarriesItem(ModContent.ItemType<PaleontologistsCertificate>()), Condition.InDesert);
-            } 
+                .Add(ItemID.Bone);
             npcShop.Register();
-		}
-
-		public override void ModifyActiveShop(string shopName, Item[] items) {
-			foreach (Item item in items) {
-				if (item == null || item.type == ItemID.None) {
-					continue;
-				}
-
-				if (NPC.IsShimmerVariant && !ValidFossilItems.Contains(item.type)) {
-					int value = item.shopCustomPrice ?? item.value;
-					item.shopCustomPrice = (int)Math.Ceiling(value * 0.95f);
-				}
-			}
 		}
 
 		public override bool CanGoToStatue(bool toKingStatue) => true;
@@ -255,13 +176,8 @@ namespace BuriedHeavens.Content.NPCs {
 			randExtraCooldown = 30;
 		}
 
-        public override void DrawTownAttackGun(ref Texture2D item, ref Rectangle itemFrame, ref float scale, ref int horizontalHoldoutOffset) {
-            Main.GetItemDrawFrame(ItemID.Revolver, out item, out itemFrame);
-            horizontalHoldoutOffset = (int)Main.DrawPlayerItemPos(1f, ItemID.Revolver).X;
-        }
-
 		public override void TownNPCAttackProj(ref int projType, ref int attackDelay) {
-			projType = ProjectileID.SilverBullet;
+			projType = ProjectileID.DeathSickle;
 			attackDelay = 1;
 		}
 
