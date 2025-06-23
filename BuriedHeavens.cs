@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using BuriedHeavens.Content.Items;
+using BuriedHeavens.Content.Items.Consumables;
 using BuriedHeavens.Content.Items.Placeable.Fossils;
 using BuriedHeavens.Content.Items.Tools;
 using BuriedHeavens.Content.NPCs;
@@ -101,14 +102,20 @@ namespace BuriedHeavens {
 
             Call("addAberrantOculiRecipe",
                 (InputDelegate)((ref AberrantOculiRecipeInput input) => {
-                    return input.primary.type == ItemID.DirtBlock && input.primary.stack > 3;
+                    return input.primary.type == ModContent.ItemType<HornFossilItem>() && input.primary.stack > 0 &&
+                    input.secondary.type == ModContent.ItemType<SkeletalFossilItem>() && input.primary.stack > 0 &&
+                    input.tertiary.type == ModContent.ItemType<SkeletalFossilItem>() && input.primary.stack > 0 &&
+                    input.quaternary.type == ModContent.ItemType<SkeletalFossilItem>() && input.primary.stack > 0 &&
+                    input.relic.type == ItemID.Star && input.relic.stack > 4 &&
+                    input.tome.type == ItemID.SpellTome && input.tome.stack > 0;
                 }),
                 (OutputDelegate)((ref AberrantOculiRecipeInput input) => {
-                    Item item = new(ItemID.StoneBlock, 4);
+                    Item item = new(ModContent.ItemType<DubiousDinosaurEgg>());
                     return item;
                 }),
                 (OperationDelegate)((ref AberrantOculiRecipeInput input) => {
-                    input.primary.stack -= 1;
+                    input.primary.stack -= 1; input.secondary.stack -= 1; input.tertiary.stack -= 1;
+                    input.quaternary.stack -= 1; input.relic.stack -= 5;
                 })
             );
 

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using BuriedHeavens.Content.NPCs;
 using BuriedHeavens.Content.Tiles;
 using BuriedHeavens.Core.Progression;
@@ -140,5 +141,10 @@ namespace BuriedHeavens.Common.Systems {
                 worldTree = worldTreeType;
             }
         }
+
+        public bool MalkuthCheck() => pathway.Contains(0);
+        public bool YesodCheck() => pathway.Contains(1);
+        public bool TiphCheck() => pathway.Contains(2);
+        public bool KetherCheck() => pathway.Contains(3);
     }
 }

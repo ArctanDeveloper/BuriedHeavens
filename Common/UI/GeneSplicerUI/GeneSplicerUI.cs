@@ -1,4 +1,5 @@
 using BuriedHeavens.Common.Players;
+using BuriedHeavens.Common.Systems;
 using BuriedHeavens.Content.Items;
 using BuriedHeavens.Content.Items.Consumables;
 using BuriedHeavens.Content.Items.Placeable.Fossils;
@@ -7,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent.UI.Elements;
@@ -240,6 +242,20 @@ namespace BuriedHeavens.Common.UI.GeneSplicerUI {
             if (RecipeCheck(itemSlots, out int result))
             {
                 player.QuickSpawnItem(player.GetSource_FromThis(), result);
+
+                if (!ModContent.GetInstance<TreeSystem>().YesodCheck() && ModContent.GetInstance<TreeSystem>().MalkuthCheck())
+                {
+                    ModContent.GetInstance<TreeSystem>().pathway.Append(1);
+                }
+
+                if (!player.GetModPlayer<TreePlayer>().YesodUnlock) player.GetModPlayer<TreePlayer>().YesodUnlock = true;
+                if (result == ModContent.ItemType<DubiousDinosaurEgg>())
+                {
+                    if (!ModContent.GetInstance<TreeSystem>().TiphCheck() && ModContent.GetInstance<TreeSystem>().YesodCheck())
+                    {
+                        ModContent.GetInstance<TreeSystem>().pathway.Append(2);
+                    }
+                }
                 return true;
             }
             return false;
