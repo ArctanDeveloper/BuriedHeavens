@@ -52,9 +52,15 @@ namespace BuriedHeavens.Common.UI.AberrantOculiUI {
                 Height = new StyleDimension(32, 0f)
             };
             closeButton.OnLeftClick += (mouseEvent, element) => {
-                if (mouseEvent.Target == element && Main.LocalPlayer.TryGetModPlayer(out AberrantOculiPlayer aberrantOculiPlayer)) {   
-                    aberrantOculiPlayer.CloseUI();
+                if (mouseEvent.Target == element && Main.LocalPlayer.TryGetModPlayer(out AberrantOculiPlayer aberrantOculiPlayer)) {
                     DropItems();
+                    primarySlot.Item.TurnToAir();
+                    secondarySlot.Item.TurnToAir();
+                    tertiarySlot.Item.TurnToAir();
+                    quaternarySlot.Item.TurnToAir();
+                    relicSlot.Item.TurnToAir();
+                    tomeSlot.Item.TurnToAir();
+                    aberrantOculiPlayer.CloseUI();
                 }
             };
 

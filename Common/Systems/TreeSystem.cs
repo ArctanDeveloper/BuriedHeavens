@@ -47,16 +47,16 @@ namespace BuriedHeavens.Common.Systems {
         public static Tree DeathTree = new() {
             nodes = [
                 new() {
-                    Name = "Kether"
+                    Name = "Thaumiel"
                 },
                 new() {
-                    Name = "Tiphereth"
+                    Name = "Tagiriron"
                 },
                 new() {
-                    Name = "Jesod"
+                    Name = "Gamaliel"
                 },
                 new() {
-                    Name = "Malchuth"
+                    Name = "Lilith"
                 },
             ],
             connections = [
