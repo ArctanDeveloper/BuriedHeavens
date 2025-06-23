@@ -19,7 +19,14 @@ namespace BuriedHeavens.Common.UI.TreeUI {
         //private UIElement SephirahNodeSingle;
         private UIElement SephirahNodeTree;
         public PanelUI DraggablePanel;
-        private readonly string KetherString = "Kether", TiphString = "Tiphereth", YesodString = "Jesod", MalkuthString = "Malchuth";
+        private const string KetherString = "Kether",
+            TiphString = "Tiphereth",
+            YesodString = "Jesod",
+            MalkuthString = "Malchuth";
+        private const string KetherStringDeath = "Thaumiel",
+            TiphStringDeath = "Tagiriron",
+            YesodStringDeath = "Gamaliel",
+            MalkuthStringDeath = "Lilith";
         private UIText KetherText, TiphText, YesodText, MalkuthText;
         //private List<BetterItemSlot> itemSlots;
         //private readonly float itemSlotSize = 52 * 0.65f;

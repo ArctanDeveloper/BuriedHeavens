@@ -1,9 +1,8 @@
 using BuriedHeavens.Common.Players;
 using BuriedHeavens.Common.UI.TreeUI;
 using BuriedHeavens.Common.Systems;
-using BuriedHeavens.Content.Items;
 using BuriedHeavens.Content.Items.Consumables;
-using BuriedHeavens.Content.Items.Placeable.Fossils;
+using BuriedHeavens.Content.Items.Placeable;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -258,6 +257,11 @@ namespace BuriedHeavens.Common.UI.GeneSplicerUI {
                     {
                         ModContent.GetInstance<TreeSystem>().pathway.Append(2);
                     }
+                }
+
+                if (result == ModContent.ItemType<PaleontologistsCampfireItem>())
+                {
+                    //ModContent.GetInstance<TreeSystem>().DebugFeature();
                 }
                 return true;
             }
