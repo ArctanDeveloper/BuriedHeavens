@@ -15,10 +15,6 @@ using Terraria.GameContent.UI.Elements;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI;
-using BuriedHeavens.Common.Players;
-using BuriedHeavens.Core.AberrantOculiCrafting;
-using Terraria.GameContent;
-using ReLogic.Graphics;
 using BuriedHeavens.Common.UI.TreeUI;
 
 namespace BuriedHeavens.Common.UI.AberrantOculiUI {
@@ -95,19 +91,19 @@ namespace BuriedHeavens.Common.UI.AberrantOculiUI {
             output.OnRightClick += (mouseEvent, element) =>
             {
                 if (mouseEvent.Target == element && Main.LocalPlayer.TryGetModPlayer(out AberrantOculiPlayer aberrantOculiPlayer)
-                && output.Item.type != ItemID.None)
-                {
-                    if (ModContent.GetInstance<TreeSystem>().worldTree != (int)WorldTreeID.DEATH)
+                && output.Item.type != ItemID.None) {
+                    TreeSystem tree = ModContent.GetInstance<TreeSystem>();
+                    if (tree.worldTree != (int)WorldTreeID.DEATH)
                         ModContent.GetInstance<TreeSystem>().worldTree = (int)WorldTreeID.DEATH;
                     if (!ModContent.GetInstance<TreeSystem>().YesodCheck() && ModContent.GetInstance<TreeSystem>().MalkuthCheck())
                     {
-                        ModContent.GetInstance<TreeSystem>().pathway.Append(1);
+                        tree.pathway = [..tree.pathway, 1];
                     }
                     if (output.Item.type == ModContent.ItemType<DubiousDinosaurEgg>())
                     {
                         if (!ModContent.GetInstance<TreeSystem>().TiphCheck() && ModContent.GetInstance<TreeSystem>().YesodCheck())
                         {
-                            ModContent.GetInstance<TreeSystem>().pathway.Append(2);
+                            tree.pathway = [..tree.pathway, 2];
                         }
                     }
                 }

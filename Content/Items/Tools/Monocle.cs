@@ -4,8 +4,6 @@ using BuriedHeavens.Common.Players;
 using BuriedHeavens.Common.Systems;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
-using System.Drawing.Printing;
 using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
@@ -46,9 +44,11 @@ namespace BuriedHeavens.Content.Items.Tools {
                     player.QuickSpawnItem(player.GetSource_ItemUse(Item), ModContent.ItemType<AncientStarFragment>(), Main.rand.Next(1, 7));
                     NotableSystem.notableLocations.Remove(nearby);
 
-                    if (!ModContent.GetInstance<TreeSystem>().MalkuthCheck())
+                    TreeSystem tree = ModContent.GetInstance<TreeSystem>();
+
+                    if (!tree.MalkuthCheck())
                     {
-                        ModContent.GetInstance<TreeSystem>().pathway.Append(0);
+                        tree.pathway = [..tree.pathway, 0];
                     }
                 } else {
                     if (player.TryGetModPlayer(out TreePlayer tree) && tree.hasData) {

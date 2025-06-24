@@ -250,7 +250,6 @@ namespace BuriedHeavens.Common.UI.GeneSplicerUI {
                     ModContent.GetInstance<TreeSystem>().pathway.Append(1);
                 }
 
-                if (!player.GetModPlayer<TreePlayer>().YesodUnlock) player.GetModPlayer<TreePlayer>().YesodUnlock = true;
                 if (result == ModContent.ItemType<DubiousDinosaurEgg>())
                 {
                     if (!ModContent.GetInstance<TreeSystem>().TiphCheck() && ModContent.GetInstance<TreeSystem>().YesodCheck())

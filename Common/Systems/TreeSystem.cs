@@ -145,10 +145,26 @@ namespace BuriedHeavens.Common.Systems {
             }
         }
 
-        public bool MalkuthCheck() => pathway.Contains(0);
-        public bool YesodCheck() => pathway.Contains(1);
-        public bool TiphCheck() => pathway.Contains(2);
-        public bool KetherCheck() => pathway.Contains(3);
+        public bool MalkuthCheck() => worldTree switch {
+            (int)WorldTreeID.LIFE => pathway.Contains(0),
+            (int)WorldTreeID.DEATH => pathway.Contains(3),
+            _ => false
+        };
+        public bool YesodCheck() => worldTree switch {
+            (int)WorldTreeID.LIFE => pathway.Contains(1),
+            (int)WorldTreeID.DEATH => pathway.Contains(2),
+            _ => false
+        };
+        public bool TiphCheck() => worldTree switch {
+            (int)WorldTreeID.LIFE => pathway.Contains(2),
+            (int)WorldTreeID.DEATH => pathway.Contains(1),
+            _ => false
+        };
+        public bool KetherCheck() => worldTree switch {
+            (int)WorldTreeID.LIFE => pathway.Contains(3),
+            (int)WorldTreeID.DEATH => pathway.Contains(0),
+            _ => false
+        };
 
         public void DebugFeature()
         {

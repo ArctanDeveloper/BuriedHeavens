@@ -49,7 +49,7 @@ namespace BuriedHeavens.Content.Items.Tools {
                             ModContent.GetInstance<TreeSystem>().worldTree = (int)WorldTreeID.LIFE;
                         if (!ModContent.GetInstance<TreeSystem>().MalkuthCheck())
                         {
-                            ModContent.GetInstance<TreeSystem>().pathway.Append(0);
+                            ModContent.GetInstance<TreeSystem>().pathway = [..ModContent.GetInstance<TreeSystem>().pathway, 0];
                         }
                     } else {
                         if (player.TryGetModPlayer(out TreePlayer tree) && tree.hasData) {

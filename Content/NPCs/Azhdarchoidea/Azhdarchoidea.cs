@@ -1,3 +1,4 @@
+using BuriedHeavens.Common.Systems;
 using BuriedHeavens.Content.Items.Accessories;
 using BuriedHeavens.Content.Items.Consumables;
 using BuriedHeavens.Content.Items.Placeable;
@@ -259,6 +260,13 @@ namespace BuriedHeavens.Content.NPCs.Azhdarchoidea {
 			npcLoot.Add(ItemDropRule.MasterModeCommonDrop(ModContent.ItemType<AzhdarchoideaRelic>()));
 
 			//npcLoot.Add(ItemDropRule.MasterModeDropOnAllPlayers(ModContent.ItemType<AzhdarchoideaPetItem>(), 4));
+        }
+
+        public override void OnKill() {
+            TreeSystem tree = ModContent.GetInstance<TreeSystem>();
+            if (!tree.KetherCheck()) {
+                tree.pathway = [.. tree.pathway, 3];
+            }
         }
     }
 }
